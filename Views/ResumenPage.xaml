@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="KYCApp.Views.ResumenPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Resumen de Visita">
+    
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <!-- Header -->
+            <Label Text="📋 Resumen de Verificación" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#6200EE"/>
+
+            <!-- Visitor Information -->
+            <Frame BackgroundColor="#E8F5E8" 
+                   HasShadow="True"
+                   CornerRadius="10"
+                   Padding="15">
+                <StackLayout>
+                    <Label Text="👤 Información del Visitante" 
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#2E7D32"/>
+                    
+                    <Label x:Name="VisitanteNombreLabel"
+                           Text="Nombre: Cargando..."
+                           FontSize="16"
+                           TextColor="#2E7D32"/>
+                    
+                    <Label x:Name="VisitanteEmailLabel"
+                           Text="Email: Cargando..."
+                           FontSize="16"
+                           TextColor="#2E7D32"/>
+                    
+                    <Label x:Name="VisitanteTelefonoLabel"
+                           Text="Teléfono: Cargando..."
+                           FontSize="16"
+                           TextColor="#2E7D32"/>
+                    
+                    <Label x:Name="VisitanteFechaLabel"
+                           Text="Fecha de Visita: Cargando..."
+                           FontSize="16"
+                           TextColor="#2E7D32"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- QR Code Information -->
+            <Frame BackgroundColor="#E3F2FD" 
+                   HasShadow="True"
+                   CornerRadius="10"
+                   Padding="15">
+                <StackLayout>
+                    <Label Text="🔍 Código QR" 
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"/>
+                    
+                    <Label x:Name="QRCodeLabel"
+                           FontSize="16"
+                           TextColor="#1976D2"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Photos Section -->
+            <Label Text="📸 Fotos Capturadas" 
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#6200EE"/>
+
+            <!-- Document Photo -->
+            <Frame BackgroundColor="White" 
+                   HasShadow="True"
+                   CornerRadius="10"
+                   Padding="10">
+                <StackLayout>
+                    <Label Text="🆔 Documento de Identificación" 
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Image x:Name="DocumentImage" 
+                           HeightRequest="200"
+                           Aspect="AspectFit"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Placas Photo -->
+            <Frame BackgroundColor="White" 
+                   HasShadow="True"
+                   CornerRadius="10"
+                   Padding="10">
+                <StackLayout>
+                    <Label Text="🚗 Placas del Vehículo" 
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Image x:Name="PlacasImage" 
+                           HeightRequest="200"
+                           Aspect="AspectFit"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Action Buttons -->
+            <StackLayout Spacing="15">
+                
+                <Button x:Name="ConfirmButton"
+                        Text="✅ Confirmar y Registrar Visita"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        Clicked="OnConfirmClicked"/>
+
+                <Button x:Name="EditButton"
+                        Text="✏️ Editar Información"
+                        BackgroundColor="#FF9800"
+                        TextColor="White"
+                        FontSize="16"
+                        HeightRequest="45"
+                        CornerRadius="22"
+                        Clicked="OnEditClicked"/>
+
+                <Button x:Name="CancelButton"
+                        Text="❌ Cancelar Proceso"
+                        BackgroundColor="#F44336"
+                        TextColor="White"
+                        FontSize="16"
+                        HeightRequest="45"
+                        CornerRadius="22"
+                        Clicked="OnCancelClicked"/>
+
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+    
+</ContentPage>

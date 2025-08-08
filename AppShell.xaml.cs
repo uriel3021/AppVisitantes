@@ -12,7 +12,8 @@ public partial class AppShell : Shell
         Routing.RegisterRoute("MainPage", typeof(MainPage));
         Routing.RegisterRoute("qrscan", typeof(QRScanPage));
         Routing.RegisterRoute("documentcapture", typeof(DocumentCapturePage));
-        Routing.RegisterRoute("selfie", typeof(SelfiePage));
+        Routing.RegisterRoute("placascapture", typeof(PlacasCapturePage));
+        Routing.RegisterRoute("resumen", typeof(ResumenPage));
         Routing.RegisterRoute("confirmation", typeof(ConfirmationPage));
     }
 }

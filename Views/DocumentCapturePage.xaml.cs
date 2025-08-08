@@ -5,7 +5,7 @@ namespace KYCApp.Views
     public partial class DocumentCapturePage : ContentPage
     {
         private readonly string qrCode;
-        private string documentPhotoPath;
+        private string documentPhotoPath = string.Empty;
 
         public DocumentCapturePage(string qrCode)
         {
@@ -49,7 +49,7 @@ namespace KYCApp.Views
         {
             if (!string.IsNullOrEmpty(documentPhotoPath))
             {
-                await Navigation.PushAsync(new SelfiePage(qrCode, documentPhotoPath));
+                await Navigation.PushAsync(new PlacasCapturePage(qrCode, documentPhotoPath));
             }
         }
     }

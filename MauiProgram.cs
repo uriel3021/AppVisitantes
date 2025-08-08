@@ -17,9 +17,8 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            // COMENTADO TEMPORALMENTE PARA DIAGNOSTICAR
-            // .UseMauiCommunityToolkit()
-            // .UseBarcodeReader()
+            .UseMauiCommunityToolkit()
+            .UseBarcodeReader()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

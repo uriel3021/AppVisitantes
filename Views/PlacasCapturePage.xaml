@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="KYCApp.Views.PlacasCapturePage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Captura de Placas">
+    
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="20">
+            
+            <!-- Header -->
+            <Label Text="📸 Captura de Placas del Vehículo" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#6200EE"/>
+            
+            <Label Text="Tome una foto clara de las placas del vehículo del visitante" 
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   TextColor="Gray"/>
+
+            <!-- Camera Preview Area -->
+            <Frame BackgroundColor="LightGray" 
+                   HeightRequest="300"
+                   HasShadow="True"
+                   CornerRadius="10">
+                <StackLayout>
+                    <Image x:Name="PlacasImagePreview" 
+                           Aspect="AspectFit"
+                           IsVisible="False"/>
+                    
+                    <Label x:Name="PlaceholderLabel"
+                           Text="🚗 Imagen de las placas aparecerá aquí"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="16"
+                           TextColor="Gray"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Instructions -->
+            <Frame BackgroundColor="#E3F2FD" 
+                   HasShadow="False"
+                   CornerRadius="10"
+                   Padding="15">
+                <StackLayout>
+                    <Label Text="📋 Instrucciones:" 
+                           FontAttributes="Bold"
+                           TextColor="#1976D2"/>
+                    <Label Text="• Asegúrese de que las placas sean visibles y legibles" 
+                           TextColor="#1976D2"/>
+                    <Label Text="• Evite reflejos y sombras" 
+                           TextColor="#1976D2"/>
+                    <Label Text="• Mantenga la cámara estable" 
+                           TextColor="#1976D2"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Buttons -->
+            <StackLayout Spacing="15">
+                
+                <Button x:Name="TakePhotoButton"
+                        Text="📸 Tomar Foto de Placas"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        Clicked="OnTakePhotoClicked"/>
+
+                <Button x:Name="RetakeButton"
+                        Text="🔄 Tomar Otra Foto"
+                        BackgroundColor="#FF9800"
+                        TextColor="White"
+                        FontSize="16"
+                        HeightRequest="45"
+                        CornerRadius="22"
+                        IsVisible="False"
+                        Clicked="OnRetakeClicked"/>
+
+                <Button x:Name="ContinueButton"
+                        Text="➡️ Continuar al Resumen"
+                        BackgroundColor="#6200EE"
+                        TextColor="White"
+                        FontSize="18"
+                        HeightRequest="50"
+                        CornerRadius="25"
+                        IsVisible="False"
+                        Clicked="OnContinueClicked"/>
+
+                <Button x:Name="BackButton"
+                        Text="⬅️ Regresar"
+                        BackgroundColor="Gray"
+                        TextColor="White"
+                        FontSize="16"
+                        HeightRequest="45"
+                        CornerRadius="22"
+                        Clicked="OnBackClicked"/>
+
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+    
+</ContentPage>

@@ -1,0 +1,108 @@
+namespace KYCApp.Views
+{
+    public partial class PlacasCapturePage : ContentPage
+    {
+        private string qrCode;
+        private string documentPhotoPath;
+        private string placasPhotoPath = string.Empty;
+
+        public PlacasCapturePage(string qrCode, string documentPath)
+        {
+            InitializeComponent();
+            this.qrCode = qrCode;
+            this.documentPhotoPath = documentPath;
+        }
+
+        private async void OnTakePhotoClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MediaPicker.Default.IsCaptureSupported)
+                {
+                    var photo = await MediaPicker.Default.CapturePhotoAsync();
+
+                    if (photo != null)
+                    {
+                        // Save photo to local storage
+                        var localFilePath = Path.Combine(FileSystem.CacheDirectory, $"placas_{DateTime.Now:yyyyMMdd_HHmmss}.jpg");
+
+                        using var sourceStream = await photo.OpenReadAsync();
+                        using var localFileStream = File.OpenWrite(localFilePath);
+                        await sourceStream.CopyToAsync(localFileStream);
+
+                        placasPhotoPath = localFilePath;
+
+                        // Show preview
+                        PlacasImagePreview.Source = ImageSource.FromFile(localFilePath);
+                        PlacasImagePreview.IsVisible = true;
+                        PlaceholderLabel.IsVisible = false;
+
+                        // Show action buttons
+                        TakePhotoButton.IsVisible = false;
+                        RetakeButton.IsVisible = true;
+                        ContinueButton.IsVisible = true;
+
+                        await DisplayAlert("✅ Foto Capturada", "Foto de placas capturada exitosamente", "OK");
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Error", "La captura de fotos no está soportada en este dispositivo", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Error al capturar foto: {ex.Message}", "OK");
+            }
+        }
+
+        private async void OnRetakeClicked(object sender, EventArgs e)
+        {
+            // Reset UI for new photo
+            PlacasImagePreview.IsVisible = false;
+            PlaceholderLabel.IsVisible = true;
+            TakePhotoButton.IsVisible = true;
+            RetakeButton.IsVisible = false;
+            ContinueButton.IsVisible = false;
+            
+            // Delete previous photo file
+            if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
+            {
+                try
+                {
+                    File.Delete(placasPhotoPath);
+                }
+                catch { /* Ignore errors */ }
+            }
+            
+            placasPhotoPath = string.Empty;
+        }
+
+        private async void OnContinueClicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(placasPhotoPath))
+            {
+                await DisplayAlert("Error", "Debe tomar una foto de las placas antes de continuar", "OK");
+                return;
+            }
+
+            // Navigate to summary page with all data
+            await Navigation.PushAsync(new ResumenPage(qrCode, documentPhotoPath, placasPhotoPath));
+        }
+
+        private async void OnBackClicked(object sender, EventArgs e)
+        {
+            // Clean up photo file if exists
+            if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
+            {
+                try
+                {
+                    File.Delete(placasPhotoPath);
+                }
+                catch { /* Ignore errors */ }
+            }
+
+            await Navigation.PopAsync();
+        }
+    }
+}
