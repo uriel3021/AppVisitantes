@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
+             x:Class="KYCApp.Views.QRScanPage"
+             Title="Escanear QR">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <zxing:CameraBarcodeReaderView Grid.Row="0"
+                                       x:Name="CameraView"
+                                       BarcodesDetected="OnBarcodesDetected"
+                                       IsDetecting="True"
+                                       VerticalOptions="FillAndExpand"
+                                       HorizontalOptions="FillAndExpand" />
+
+        <StackLayout Grid.Row="1" 
+                     Padding="20" 
+                     BackgroundColor="Black"
+                     Opacity="0.8">
+            <Label Text="Apunta la cámara al código QR" 
+                   TextColor="White"
+                   FontSize="16"
+                   HorizontalOptions="Center" />
+            
+            <Button Text="Cancelar"
+                    BackgroundColor="#FF4444"
+                    TextColor="White"
+                    Clicked="OnCancelClicked"
+                    Margin="0,10,0,0" />
+        </StackLayout>
+    </Grid>
+
+</ContentPage>

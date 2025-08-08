@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KYCApp.Views.ConfirmationPage"
+             Title="Confirmación">
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <Label Text="¡Proceso KYC Completado!" 
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,20,0,30" />
+
+            <Label Text="Resumen de datos capturados:" 
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   Margin="0,0,0,20" />
+
+            <Frame BackgroundColor="LightGray" Padding="15" Margin="0,0,0,20">
+                <StackLayout>
+                    <Label Text="Código QR:" FontAttributes="Bold" />
+                    <Label x:Name="QRCodeLabel" FontSize="16" />
+                </StackLayout>
+            </Frame>
+
+            <Label Text="Documento:" FontAttributes="Bold" Margin="0,0,0,10" />
+            <Frame BackgroundColor="LightGray" Margin="0,0,0,20" HeightRequest="200">
+                <Image x:Name="DocumentImage" Aspect="AspectFit" />
+            </Frame>
+
+            <Label Text="Selfie:" FontAttributes="Bold" Margin="0,0,0,10" />
+            <Frame BackgroundColor="LightGray" Margin="0,0,0,20" HeightRequest="200">
+                <Image x:Name="SelfieImage" Aspect="AspectFit" />
+            </Frame>
+
+            <Button Text="Nuevo Proceso"
+                    BackgroundColor="#007ACC"
+                    TextColor="White"
+                    FontSize="18"
+                    Clicked="OnNewProcessClicked"
+                    Margin="0,20,0,0" />
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

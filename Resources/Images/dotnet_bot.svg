@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="185" viewBox="0 0 300 185">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#512BD4" />
+      <stop offset="100%" stop-color="#8A2BE2" />
+    </linearGradient>
+  </defs>
+  <rect width="300" height="185" rx="20" fill="url(#grad1)"/>
+  <circle cx="120" cy="70" r="8" fill="white"/>
+  <circle cx="180" cy="70" r="8" fill="white"/>
+  <path d="M 130 110 Q 150 130 170 110" stroke="white" stroke-width="4" fill="none"/>
+  <text x="150" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="white" font-weight="bold">KYC Bot</text>
+</svg>

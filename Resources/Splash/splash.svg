@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="456" height="456" viewBox="0 0 456 456">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <circle cx="228" cy="228" r="228" fill="#512BD4"/>
+    <circle cx="228" cy="228" r="128" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

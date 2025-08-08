@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KYCApp.Views.MainPage"
+             Title="KYC App"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <Label Text="🔍 KYC App" 
+                   FontSize="28" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   TextColor="Black"
+                   Margin="0,30,0,20" />
+            
+            <Label Text="Sistema de Verificación de Visitantes" 
+                   FontSize="16" 
+                   HorizontalOptions="Center" 
+                   TextColor="Gray"
+                   Margin="0,0,0,30" />
+            
+            <Button x:Name="ScanQRButton"
+                    Text="📱 Escanear Código QR"
+                    BackgroundColor="#007ACC"
+                    TextColor="White"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    CornerRadius="8"
+                    Clicked="OnScanQRClicked" />
+            
+            <Button x:Name="TestDBButton"
+                    Text="🔗 Probar Conexión Base de Datos"
+                    BackgroundColor="#28a745"
+                    TextColor="White"
+                    FontSize="14"
+                    HeightRequest="45"
+                    CornerRadius="8"
+                    Clicked="OnTestDBClicked"
+                    Margin="0,10,0,0" />
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
