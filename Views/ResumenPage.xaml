@@ -114,15 +114,6 @@
                         CornerRadius="25"
                         Clicked="OnConfirmClicked"/>
 
-                <Button x:Name="EditButton"
-                        Text="✏️ Editar Información"
-                        BackgroundColor="#FF9800"
-                        TextColor="White"
-                        FontSize="16"
-                        HeightRequest="45"
-                        CornerRadius="22"
-                        Clicked="OnEditClicked"/>
-
                 <Button x:Name="CancelButton"
                         Text="❌ Cancelar Proceso"
                         BackgroundColor="#F44336"

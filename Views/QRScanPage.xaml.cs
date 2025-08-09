@@ -1,10 +1,5 @@
 using ZXing.Net.Maui;
-using System;
-using KYCApp.Data;
-using KYCApp.Models;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using KYCApp.Services;
 
 namespace KYCApp.Views
 {
@@ -48,8 +43,8 @@ namespace KYCApp.Views
                             
                             System.Diagnostics.Debug.WriteLine("[QR] Alert mostrado, iniciando validación...");
                             
-                            // Validar con la base de datos
-                            await ValidateQRWithDatabase(qrCode);
+                            // Validar con la API REST
+                            await ValidateQRWithAPI(qrCode);
                         }
                         catch (Exception ex)
                         {
@@ -71,123 +66,41 @@ namespace KYCApp.Views
             }
         }
 
-        private async Task ValidateQRWithDatabase(string qrCode)
+        private async Task ValidateQRWithAPI(string qrCode)
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"[QR] *** INICIO ValidateQRWithDatabase para: {qrCode} ***");
+                //System.Diagnostics.Debug.WriteLine($"[QR] *** INICIO ValidateQRWithAPI para: {qrCode} ***");
                 
-                await DisplayAlert("🔄 Validando", "Conectando a la base de datos...", "OK");
+                //await DisplayAlert("🔄 Validando", "Conectando al servicio...", "OK");
                 
-                // Crear contexto directamente desde appsettings.json
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                using var stream = assembly.GetManifestResourceStream("KYCApp.appsettings.json");
-                
-                if (stream == null)
+                // Validar que sea un GUID válido
+                if (!Guid.TryParse(qrCode, out Guid qrGuid))
                 {
-                    System.Diagnostics.Debug.WriteLine("[QR] ❌ ERROR: No se encontró appsettings.json");
-                    await DisplayAlert("❌ Error Config", "No se encontró archivo de configuración", "OK");
+                    await DisplayAlert("❌ Formato QR", "El QR no tiene formato de GUID válido", "OK");
                     CameraView.IsDetecting = true;
                     return;
                 }
                 
-                System.Diagnostics.Debug.WriteLine("[QR] ✅ Archivo appsettings.json encontrado");
+                System.Diagnostics.Debug.WriteLine($"[QR] GUID válido: {qrGuid}");
                 
-                var config = new ConfigurationBuilder()
-                    .AddJsonStream(stream)
-                    .Build();
+                // Llamar al servicio REST
+                var qrService = new QRValidationService();
                 
-                var connectionString = config.GetConnectionString("DefaultConnection");
-                if (string.IsNullOrEmpty(connectionString))
+               // await DisplayAlert("⏳ Ejecutando", "Consultando código...", "OK");
+                
+                var result = await qrService.ValidateQRCodeAsync(qrCode);
+                
+               // System.Diagnostics.Debug.WriteLine($"[QR] Resultado API: IsValid={result.IsValid}, Message={result.Message}");
+                
+                if (result.IsValid)
                 {
-                    System.Diagnostics.Debug.WriteLine("[QR] ❌ ERROR: Cadena de conexión vacía");
-                    await DisplayAlert("❌ Error Config", "Cadena de conexión no encontrada", "OK");
-                    CameraView.IsDetecting = true;
-                    return;
-                }
-                
-                System.Diagnostics.Debug.WriteLine($"[QR] ✅ Cadena de conexión obtenida: {connectionString.Substring(0, Math.Min(50, connectionString.Length))}...");
-                
-                using var context = new KYCDbContext(new DbContextOptionsBuilder<KYCDbContext>()
-                    .UseSqlServer(connectionString)
-                    .Options);
-                
-                System.Diagnostics.Debug.WriteLine("[QR] ✅ Contexto EF creado");
-                
-                // Probar conexión
-                await DisplayAlert("🔄 Conectando", "Probando conexión a base de datos...", "OK");
-                
-                await context.Database.OpenConnectionAsync();
-                System.Diagnostics.Debug.WriteLine("[QR] ✅ Conexión a BD exitosa");
-                
-                // Buscar el código QR
-                await DisplayAlert("🔍 Buscando", $"Buscando QR: {qrCode}", "OK");
-                
-                System.Diagnostics.Debug.WriteLine("[QR] ⏳ Ejecutando consulta LINQ...");
-                
-                var codigoQRRegistro = default(CodigoQr);
-                
-                try
-                {
-                    // Buscar directamente el código QR específico (más eficiente)
-                    await DisplayAlert("⏳ Ejecutando", "Buscando código específico...", "OK");
-                    
-                    // Convertir string a Guid para comparar correctamente
-                    if (Guid.TryParse(qrCode, out Guid qrGuid))
-                    {
-                        // Usar FindAsync si Id es PK (más rápido) o consulta optimizada
-                        codigoQRRegistro = await context.CodigoQrs.FindAsync(qrGuid);
-                        
-                        // Si FindAsync no funciona (Id no es PK), usar consulta optimizada
-                        if (codigoQRRegistro == null)
-                        {
-                            codigoQRRegistro = await context.CodigoQrs
-                                .AsNoTracking()  // No tracking para lectura
-                                .Where(c => c.Id == qrGuid)
-                                .FirstOrDefaultAsync();
-                        }
-                    }
-                    else
-                    {
-                        await DisplayAlert("❌ Formato QR", "El QR no tiene formato de GUID válido", "OK");
-                        CameraView.IsDetecting = true;
-                        return;
-                    }
-                    
-                    System.Diagnostics.Debug.WriteLine($"[QR] Resultado búsqueda: {(codigoQRRegistro != null ? "✅ ENCONTRADO" : "❌ NO ENCONTRADO")}");
-                    
-                    await DisplayAlert("🔍 Resultado", 
-                        codigoQRRegistro != null ? "✅ QR ENCONTRADO!" : "❌ QR NO ENCONTRADO", 
-                        "OK");
-                }
-                catch (Exception sqlEx)
-                {
-                    System.Diagnostics.Debug.WriteLine($"[QR] ❌ Error en consulta SQL: {sqlEx.Message}");
-                    await DisplayAlert("❌ Error SQL", $"Error en consulta:\n{sqlEx.Message}", "OK");
-                    CameraView.IsDetecting = true;
-                    return;
-                }
-                
-                if (codigoQRRegistro != null)
-                {
-                    // QR VÁLIDO - buscar visitante (optimizado)
-                    var visitante = await context.Visitantes
-                        .AsNoTracking()  // No tracking para lectura
-                        .Where(v => v.Id == codigoQRRegistro.VisitanteId)
-                        .Select(v => new { v.Nombre, v.ApellidoPaterno })  // Solo las columnas necesarias
-                        .FirstOrDefaultAsync();
-                    
-                    string visitanteInfo = visitante != null ? 
-                        $"👤 {visitante.Nombre} {visitante.ApellidoPaterno}" : 
-                        "👤 Visitante no encontrado";
-                    
-                    System.Diagnostics.Debug.WriteLine($"[QR] Visitante: {visitanteInfo}");
-                    
                     await DisplayAlert("✅ QR VÁLIDO", 
                         $"Código registrado en el sistema\n\n" +
-                        $"🔍 QR: {qrCode}\n" +
-                        $"🆔 ID: {codigoQRRegistro.Id}\n" +
-                        $"{visitanteInfo}\n\n" +
+                        $"� QR: {qrCode}\n" +
+                        $"👤 Visitante: {result.VisitanteName}\n" +
+                        $"📧 Email: {result.VisitanteEmail}\n" +
+                        $"� Fecha: {result.FechaVisita:dd/MM/yyyy}\n\n" +
                         $"¡Continuando con documentos!", 
                         "Continuar");
                     
@@ -197,21 +110,10 @@ namespace KYCApp.Views
                 }
                 else
                 {
-                    // QR NO VÁLIDO - mostrar ejemplos (consulta optimizada)
-                    var ejemplosQR = await context.CodigoQrs
-                        .AsNoTracking()  // No tracking
-                        .Take(3)
-                        .Select(c => c.Codigo)  // Solo la columna necesaria
-                        .ToListAsync();
-                    
-                    string ejemplos = ejemplosQR.Any() ? 
-                        $"Ejemplos válidos:\n• {string.Join("\n• ", ejemplosQR)}" :
-                        "No hay códigos en la BD";
-                    
                     await DisplayAlert("❌ QR NO VÁLIDO", 
                         $"Código no registrado\n\n" +
-                        $"🔍 Escaneado: {qrCode}\n\n" +
-                        $"{ejemplos}", 
+                        $"🔍 Escaneado: {qrCode}\n" +
+                        $"📝 Mensaje: {result.Message}", 
                         "Reintentar");
                     
                     System.Diagnostics.Debug.WriteLine("[QR] ❌ QR no válido, reactivando escáner");

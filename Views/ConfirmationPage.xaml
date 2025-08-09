@@ -29,11 +29,6 @@
                 <Image x:Name="DocumentImage" Aspect="AspectFit" />
             </Frame>
 
-            <Label Text="Selfie:" FontAttributes="Bold" Margin="0,0,0,10" />
-            <Frame BackgroundColor="LightGray" Margin="0,0,0,20" HeightRequest="200">
-                <Image x:Name="SelfieImage" Aspect="AspectFit" />
-            </Frame>
-
             <Button Text="Nuevo Proceso"
                     BackgroundColor="#007ACC"
                     TextColor="White"

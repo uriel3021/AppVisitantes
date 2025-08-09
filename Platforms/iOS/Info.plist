@@ -27,7 +27,7 @@
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
     <key>NSCameraUsageDescription</key>
-    <string>Esta aplicación necesita acceso a la cámara para capturar fotos de documentos de identidad y selfies para verificación KYC.</string>
+    <string>Esta aplicación necesita acceso a la cámara para capturar fotos de documentos de identidad y placas de vehículos para verificación KYC.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Esta aplicación necesita acceso a la galería de fotos para guardar las imágenes capturadas.</string>
 </dict>

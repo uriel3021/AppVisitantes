@@ -4,14 +4,12 @@ namespace KYCApp.Views
     {
         private readonly string qrCode;
         private readonly string documentPhotoPath;
-        private readonly string selfiePhotoPath;
 
-        public ConfirmationPage(string qrCode, string documentPhotoPath, string selfiePhotoPath)
+        public ConfirmationPage(string qrCode, string documentPhotoPath)
         {
             InitializeComponent();
             this.qrCode = qrCode;
             this.documentPhotoPath = documentPhotoPath;
-            this.selfiePhotoPath = selfiePhotoPath;
             
             LoadData();
         }
@@ -24,12 +22,6 @@ namespace KYCApp.Views
             if (!string.IsNullOrEmpty(documentPhotoPath) && File.Exists(documentPhotoPath))
             {
                 DocumentImage.Source = ImageSource.FromFile(documentPhotoPath);
-            }
-
-            // Load selfie image
-            if (!string.IsNullOrEmpty(selfiePhotoPath) && File.Exists(selfiePhotoPath))
-            {
-                SelfieImage.Source = ImageSource.FromFile(selfiePhotoPath);
             }
         }
 

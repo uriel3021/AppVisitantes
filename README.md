@@ -11,10 +11,10 @@ Una aplicación móvil desarrollada en .NET MAUI para la verificación y gestió
 
 - **Escaneo de códigos QR** para identificación de visitantes
 - **Captura de documentos** con validación automática
-- **Selfie de verificación** para autenticación biométrica
-- **Conexión a base de datos Azure SQL** para almacenamiento seguro
+- **Captura de placas de vehículos** para registro completo
+- **Conexión a API REST** para validación en tiempo real
 - **Interfaz intuitiva** optimizada para dispositivos móviles
-- **Arquitectura robusta** con Entity Framework Core
+- **Arquitectura limpia** con servicios HTTP
 
 ## 📱 Plataformas Soportadas
 
@@ -111,8 +111,10 @@ El APK se generará en: `bin/Release/net8.0-android/KYCApp.KYCApp-Signed.apk`
 │   ├── MainPage.xaml            # Página principal
 │   ├── QRScanPage.xaml          # Escaneo de QR
 │   ├── DocumentCapturePage.xaml # Captura de documentos
-│   └── SelfiePage.xaml          # Captura de selfie
-└── appsettings.json             # Configuración de aplicación
+│   ├── PlacasCapturePage.xaml   # Captura de placas
+│   └── ResumenPage.xaml         # Resumen y confirmación
+└── Services/
+    └── QRValidationService.cs   # Servicio de validación API
 ```
 
 ## 🔐 Seguridad

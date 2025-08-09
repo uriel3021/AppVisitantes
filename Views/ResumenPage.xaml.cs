@@ -1,8 +1,4 @@
-using KYCApp.Data;
-using KYCApp.Models;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using KYCApp.Services;
 
 namespace KYCApp.Views
 {
@@ -11,7 +7,7 @@ namespace KYCApp.Views
         private string qrCode;
         private string documentPhotoPath;
         private string placasPhotoPath;
-        private Visitante? visitanteData;
+        private QRValidationResult? validationResult;
 
         public ResumenPage(string qrCode, string documentPath, string placasPath)
         {
@@ -34,68 +30,28 @@ namespace KYCApp.Views
         {
             try
             {
-                // Crear contexto directamente desde appsettings.json
-                var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                using var stream = assembly.GetManifestResourceStream("KYCApp.appsettings.json");
-                
-                if (stream == null)
+                // Validar que sea un GUID válido
+                if (!Guid.TryParse(qrCode, out Guid qrGuid))
                 {
-                    ShowErrorMessage("No se encontró el archivo de configuración");
+                    ShowErrorMessage("El código QR no tiene formato válido de GUID");
                     return;
                 }
                 
-                var config = new ConfigurationBuilder()
-                    .AddJsonStream(stream)
-                    .Build();
+                // Llamar al servicio REST para obtener datos del visitante
+                var qrService = new QRValidationService();
+                var result = await qrService.ValidateQRCodeAsync(qrCode);
                 
-                var connectionString = config.GetConnectionString("DefaultConnection");
-                if (string.IsNullOrEmpty(connectionString))
+                if (result.IsValid)
                 {
-                    ShowErrorMessage("No se encontró la cadena de conexión");
-                    return;
-                }
-                
-                using var context = new KYCDbContext(new DbContextOptionsBuilder<KYCDbContext>()
-                    .UseSqlServer(connectionString)
-                    .Options);
-
-                // El qrCode es un GUID (Id), no un código string
-                if (Guid.TryParse(qrCode, out Guid qrGuid))
-                {
-                    // Buscar directamente por Id (optimizado)
-                    var codigoQRRegistro = await context.CodigoQrs
-                        .AsNoTracking()
-                        .Where(c => c.Id == qrGuid)
-                        .FirstOrDefaultAsync();
-                    
-                    if (codigoQRRegistro != null)
-                    {
-                        // Buscar visitante (optimizado)
-                        visitanteData = await context.Visitantes
-                            .AsNoTracking()
-                            .Where(v => v.Id == codigoQRRegistro.VisitanteId)
-                            .FirstOrDefaultAsync();
-                        
-                        if (visitanteData != null)
-                        {
-                            VisitanteNombreLabel.Text = $"Nombre: {visitanteData.Nombre} {visitanteData.ApellidoPaterno} {visitanteData.ApellidoMaterno}";
-                            VisitanteEmailLabel.Text = $"Email: {visitanteData.CorreoElectronico}";
-                            VisitanteTelefonoLabel.Text = $"Teléfono: {visitanteData.Telefono}";
-                            VisitanteFechaLabel.Text = $"Fecha de Visita: {visitanteData.FechaVisita:dd/MM/yyyy}";
-                        }
-                        else
-                        {
-                            ShowErrorMessage("No se encontraron datos del visitante");
-                        }
-                    }
-                    else
-                    {
-                        ShowErrorMessage("No se encontró el código QR en la base de datos");
-                    }
+                    validationResult = result; // Guardar el resultado para usar en la confirmación
+                    VisitanteNombreLabel.Text = $"Nombre: {result.VisitanteName}";
+                    VisitanteEmailLabel.Text = $"Email: {result.VisitanteEmail}";
+                    VisitanteTelefonoLabel.Text = $"Teléfono: (No disponible desde API)";
+                    VisitanteFechaLabel.Text = $"Fecha de Visita: {result.FechaVisita:dd/MM/yyyy}";
                 }
                 else
                 {
-                    ShowErrorMessage("El código QR no tiene formato válido de GUID");
+                    ShowErrorMessage($"No se encontraron datos del visitante: {result.Message}");
                 }
             }
             catch (Exception ex)
@@ -139,39 +95,78 @@ namespace KYCApp.Views
 
         private async void OnConfirmClicked(object sender, EventArgs e)
         {
-            if (visitanteData == null)
+            if (validationResult == null || !validationResult.IsValid)
             {
                 await DisplayAlert("Error", "No se pudieron cargar los datos del visitante", "OK");
                 return;
             }
 
-            await DisplayAlert("✅ Visita Confirmada", 
-                $"La visita de {visitanteData.Nombre} {visitanteData.ApellidoPaterno} ha sido registrada exitosamente.\n\n" +
-                $"Código QR: {qrCode}\n" +
-                $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}", 
-                "OK");
+            // Mostrar indicador de progreso
+            var loadingAlert = DisplayAlert("📤 Subiendo imágenes", "Por favor espere mientras se suben las fotos...", "OK");
 
-            // Return to main page
-            await Navigation.PopToRootAsync();
-        }
-
-        private async void OnEditClicked(object sender, EventArgs e)
-        {
-            var action = await DisplayActionSheet("¿Qué desea editar?", "Cancelar", null, 
-                "Tomar nueva foto de documento", "Tomar nueva foto de placas", "Volver al escáner QR");
-
-            switch (action)
+            try
             {
-                case "Tomar nueva foto de documento":
-                    await Navigation.PopAsync(); // Go back to placas
-                    await Navigation.PopAsync(); // Go back to document
-                    break;
-                case "Tomar nueva foto de placas":
-                    await Navigation.PopAsync(); // Go back to placas
-                    break;
-                case "Volver al escáner QR":
-                    await Navigation.PopToRootAsync();
-                    break;
+                var uploadService = new ImageUploadService();
+                
+                string documentUrl = "";
+                string placasUrl = "";
+
+                // Subir foto del documento
+                if (!string.IsNullOrEmpty(documentPhotoPath) && File.Exists(documentPhotoPath))
+                {
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo documento: {documentPhotoPath}");
+                    var documentResult = await uploadService.UploadImageAsync(documentPhotoPath, $"documento_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg");
+                    
+                    if (documentResult.IsSuccess)
+                    {
+                        documentUrl = documentResult.Url;
+                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Documento subido: {documentUrl}");
+                    }
+                    else
+                    {
+                        await DisplayAlert("❌ Error", $"Error subiendo foto del documento: {documentResult.Message}", "OK");
+                        return;
+                    }
+                }
+
+                // Subir foto de placas
+                if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
+                {
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo placas: {placasPhotoPath}");
+                    var placasResult = await uploadService.UploadImageAsync(placasPhotoPath, $"placas_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg");
+                    
+                    if (placasResult.IsSuccess)
+                    {
+                        placasUrl = placasResult.Url;
+                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Placas subidas: {placasUrl}");
+                    }
+                    else
+                    {
+                        await DisplayAlert("❌ Error", $"Error subiendo foto de placas: {placasResult.Message}", "OK");
+                        return;
+                    }
+                }
+
+                // Cancelar el alert de carga
+                // loadingAlert is not awaitable here, so we'll show success instead
+                
+                await DisplayAlert("✅ Visita Confirmada", 
+                    $"La visita de {validationResult.VisitanteName} ha sido registrada exitosamente.\n\n" +
+                    $"Código QR: {qrCode}\n" +
+                    $"Documento: {(string.IsNullOrEmpty(documentUrl) ? "No subido" : "✅ Subido")}\n" +
+                    $"Placas: {(string.IsNullOrEmpty(placasUrl) ? "No subido" : "✅ Subido")}\n" +
+                    $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}", 
+                    "OK");
+
+                System.Diagnostics.Debug.WriteLine($"[RESUMEN] Visita registrada - Documento: {documentUrl}, Placas: {placasUrl}");
+
+                // Return to main page
+                await Navigation.PopToRootAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error en confirmación: {ex.Message}");
+                await DisplayAlert("❌ Error", $"Error durante el proceso de confirmación: {ex.Message}", "OK");
             }
         }
 

@@ -41,8 +41,6 @@ namespace KYCApp.Views
                         TakePhotoButton.IsVisible = false;
                         RetakeButton.IsVisible = true;
                         ContinueButton.IsVisible = true;
-
-                        await DisplayAlert("✅ Foto Capturada", "Foto de placas capturada exitosamente", "OK");
                     }
                 }
                 else
