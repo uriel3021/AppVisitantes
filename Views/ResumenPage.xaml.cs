@@ -44,10 +44,10 @@ namespace KYCApp.Views
                 if (result.IsValid)
                 {
                     validationResult = result; // Guardar el resultado para usar en la confirmación
-                    VisitanteNombreLabel.Text = $"Nombre: {result.VisitanteName}";
-                    VisitanteEmailLabel.Text = $"Email: {result.VisitanteEmail}";
-                    VisitanteTelefonoLabel.Text = $"Teléfono: (No disponible desde API)";
-                    VisitanteFechaLabel.Text = $"Fecha de Visita: {result.FechaVisita:dd/MM/yyyy}";
+                    NombreLabel.Text = result.VisitanteName;
+                    EmpresaLabel.Text = result.VisitanteEmail; // Usando email como empresa
+                    AreaLabel.Text = "Área de visita";
+                    QRCodeLabel.Text = qrCode;
                 }
                 else
                 {
@@ -66,12 +66,12 @@ namespace KYCApp.Views
             {
                 if (!string.IsNullOrEmpty(documentPhotoPath) && File.Exists(documentPhotoPath))
                 {
-                    DocumentImage.Source = ImageSource.FromFile(documentPhotoPath);
+                    DocumentoImagen.Source = ImageSource.FromFile(documentPhotoPath);
                 }
 
                 if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
                 {
-                    PlacasImage.Source = ImageSource.FromFile(placasPhotoPath);
+                    PlacaImagen.Source = ImageSource.FromFile(placasPhotoPath);
                 }
             }
             catch (Exception ex)
@@ -87,10 +87,9 @@ namespace KYCApp.Views
 
         private void ShowErrorMessage(string message)
         {
-            VisitanteNombreLabel.Text = $"Error: {message}";
-            VisitanteEmailLabel.Text = "";
-            VisitanteTelefonoLabel.Text = "";
-            VisitanteFechaLabel.Text = "";
+            NombreLabel.Text = $"Error: {message}";
+            EmpresaLabel.Text = "";
+            AreaLabel.Text = "";
         }
 
         private async void OnConfirmClicked(object sender, EventArgs e)
@@ -100,9 +99,6 @@ namespace KYCApp.Views
                 await DisplayAlert("Error", "No se pudieron cargar los datos del visitante", "OK");
                 return;
             }
-
-            // Mostrar indicador de progreso
-            var loadingAlert = DisplayAlert("📤 Subiendo imágenes", "Por favor espere mientras se suben las fotos...", "OK");
 
             try
             {
@@ -199,6 +195,11 @@ namespace KYCApp.Views
                 }
             }
             catch { /* Ignore cleanup errors */ }
+        }
+
+        private async void OnBackClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
     }
 }

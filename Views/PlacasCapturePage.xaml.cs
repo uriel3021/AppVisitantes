@@ -33,13 +33,11 @@ namespace KYCApp.Views
                         placasPhotoPath = localFilePath;
 
                         // Show preview
-                        PlacasImagePreview.Source = ImageSource.FromFile(localFilePath);
-                        PlacasImagePreview.IsVisible = true;
-                        PlaceholderLabel.IsVisible = false;
+                        PlacaImage.Source = ImageSource.FromFile(localFilePath);
+                        PlacaImage.IsVisible = true;
+                        PlacaPlaceholder.IsVisible = false;
 
-                        // Show action buttons
-                        TakePhotoButton.IsVisible = false;
-                        RetakeButton.IsVisible = true;
+                        // Show continue button
                         ContinueButton.IsVisible = true;
                     }
                 }
@@ -52,28 +50,6 @@ namespace KYCApp.Views
             {
                 await DisplayAlert("Error", $"Error al capturar foto: {ex.Message}", "OK");
             }
-        }
-
-        private async void OnRetakeClicked(object sender, EventArgs e)
-        {
-            // Reset UI for new photo
-            PlacasImagePreview.IsVisible = false;
-            PlaceholderLabel.IsVisible = true;
-            TakePhotoButton.IsVisible = true;
-            RetakeButton.IsVisible = false;
-            ContinueButton.IsVisible = false;
-            
-            // Delete previous photo file
-            if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
-            {
-                try
-                {
-                    File.Delete(placasPhotoPath);
-                }
-                catch { /* Ignore errors */ }
-            }
-            
-            placasPhotoPath = string.Empty;
         }
 
         private async void OnContinueClicked(object sender, EventArgs e)
@@ -101,6 +77,24 @@ namespace KYCApp.Views
             }
 
             await Navigation.PopAsync();
+        }
+
+        private async void OnNewCaptureClicked(object sender, EventArgs e)
+        {
+            // Reset the photo state
+            if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
+            {
+                try
+                {
+                    File.Delete(placasPhotoPath);
+                }
+                catch { /* Ignore errors */ }
+            }
+
+            placasPhotoPath = string.Empty;
+            PlacaPlaceholder.IsVisible = true;
+            PlacaImage.IsVisible = false;
+            ContinueButton.IsVisible = false;
         }
     }
 }

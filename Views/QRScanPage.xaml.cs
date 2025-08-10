@@ -5,7 +5,27 @@ namespace KYCApp.Views
 {
     public partial class QRScanPage : ContentPage
     {
-        public QRScanPage()
+           private async void OnBackClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
+
+        private void OnToggleFlashClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                CameraView.IsTorchOn = !CameraView.IsTorchOn;
+                var button = sender as Button;
+                if (button != null)
+                {
+                    button.Text = CameraView.IsTorchOn ? "🔆 Flash ON" : "💡 Flash";
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Flash] Error al cambiar flash: {ex.Message}");
+            }
+        } public QRScanPage()
         {
             InitializeComponent();
         }

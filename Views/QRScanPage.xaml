@@ -3,36 +3,170 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.Maui.Controls"
              x:Class="KYCApp.Views.QRScanPage"
-             Title="Escanear QR">
+             Title="Escáner QR"
+             BackgroundColor="#000000">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <zxing:CameraBarcodeReaderView Grid.Row="0"
-                                       x:Name="CameraView"
-                                       BarcodesDetected="OnBarcodesDetected"
-                                       IsDetecting="True"
-                                       VerticalOptions="FillAndExpand"
-                                       HorizontalOptions="FillAndExpand" />
+        <!-- Header con gradiente Galxe -->
+        <Frame Grid.Row="0" 
+               HasShadow="False"
+               CornerRadius="0"
+               Padding="25,50,25,20">
+            <Frame.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#8B5CF6" Offset="0.0" />
+                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                </LinearGradientBrush>
+            </Frame.Background>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="✕"
+                        FontSize="24"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="20"
+                        Clicked="OnBackClicked"
+                        VerticalOptions="Center" />
+                
+                <Label Text="⚡ Escáner QR" 
+                       FontSize="24" 
+                       FontAttributes="Bold"
+                       FontFamily="Arial"
+                       TextColor="White" 
+                       VerticalOptions="Center" 
+                       HorizontalOptions="CenterAndExpand" />
+                
+                <Button Text="⋮"
+                        FontSize="24"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        VerticalOptions="Center" />
+            </StackLayout>
+        </Frame>
 
-        <StackLayout Grid.Row="1" 
-                     Padding="20" 
-                     BackgroundColor="Black"
-                     Opacity="0.8">
-            <Label Text="Apunta la cámara al código QR" 
-                   TextColor="White"
-                   FontSize="16"
-                   HorizontalOptions="Center" />
+        <!-- Área de escaneo con estilo gaming -->
+        <Grid Grid.Row="1" BackgroundColor="#000000">
             
-            <Button Text="Cancelar"
-                    BackgroundColor="#FF4444"
-                    TextColor="White"
-                    Clicked="OnCancelClicked"
-                    Margin="0,10,0,0" />
-        </StackLayout>
+            <!-- Cámara -->
+            <zxing:CameraBarcodeReaderView x:Name="CameraView"
+                                           BarcodesDetected="OnBarcodesDetected"
+                                           IsDetecting="True" />
+            
+            <!-- Overlay oscuro con marco de escaneo -->
+            <Grid>
+                <!-- Overlay superior -->
+                <BoxView BackgroundColor="#80000000" 
+                         HeightRequest="150" 
+                         VerticalOptions="Start" />
+                
+                <!-- Marco de escaneo central estilo Galxe -->
+                <Frame WidthRequest="280" 
+                       HeightRequest="280"
+                       CornerRadius="20"
+                       BackgroundColor="Transparent"
+                       BorderColor="#8B5CF6"
+                       HasShadow="True"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center">
+                    
+                    <!-- Esquinas animadas del scanner -->
+                    <Grid>
+                        <!-- Esquina superior izquierda -->
+                        <StackLayout HorizontalOptions="Start" VerticalOptions="Start">
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" />
+                        </StackLayout>
+                        
+                        <!-- Esquina superior derecha -->
+                        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
+                        </StackLayout>
+                        
+                        <!-- Esquina inferior izquierda -->
+                        <StackLayout HorizontalOptions="Start" VerticalOptions="End">
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" />
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                        </StackLayout>
+                        
+                        <!-- Esquina inferior derecha -->
+                        <StackLayout HorizontalOptions="End" VerticalOptions="End">
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
+                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                        </StackLayout>
+                        
+                        <!-- Texto central -->
+                        <Label Text="Escanear Código QR" 
+                               FontSize="16" 
+                               FontFamily="Arial"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               BackgroundColor="#80000000"
+                               Padding="15,8" />
+                    </Grid>
+                </Frame>
+                
+                <!-- Overlay inferior -->
+                <BoxView BackgroundColor="#80000000" 
+                         HeightRequest="150" 
+                         VerticalOptions="End" />
+            </Grid>
+        </Grid>
+
+        <!-- Panel inferior estilo Galxe -->
+        <Frame Grid.Row="2" 
+               BackgroundColor="#1A1A1A"
+               HasShadow="False"
+               CornerRadius="0"
+               Padding="25,20,25,40">
+            <StackLayout Spacing="15">
+                
+                <!-- Instrucciones -->
+                <Label Text="Posiciona el código QR dentro del marco" 
+                       FontSize="16" 
+                       FontFamily="Arial"
+                       TextColor="#FFFFFF"
+                       HorizontalOptions="Center" />
+                
+                <Label Text="Asegúrate de reclamar tu acceso dentro del área de escaneo" 
+                       FontSize="12" 
+                       FontFamily="Arial"
+                       TextColor="#9CA3AF"
+                       HorizontalOptions="Center" />
+                
+                <!-- Botones de acción -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,15,0,0">
+                    <Button Grid.Column="0"
+                            Text="📸 Manual"
+                            FontSize="14"
+                            FontFamily="Arial"
+                            TextColor="White"
+                            BackgroundColor="#333333"
+                            CornerRadius="12"
+                            HeightRequest="45" />
+                    
+                    <Button Grid.Column="1"
+                            Text="💡 Flash"
+                            FontSize="14"
+                            FontFamily="Arial"
+                            TextColor="White"
+                            BackgroundColor="#8B5CF6"
+                            CornerRadius="12"
+                            HeightRequest="45"
+                            Clicked="OnToggleFlashClicked" />
+                </Grid>
+            </StackLayout>
+        </Frame>
     </Grid>
 
 </ContentPage>

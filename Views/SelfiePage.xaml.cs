@@ -2,18 +2,20 @@ using Microsoft.Maui.Media;
 
 namespace KYCApp.Views
 {
-    public partial class DocumentCapturePage : ContentPage
+    public partial class SelfiePage : ContentPage
     {
         private readonly string qrCode;
-        private string documentPhotoPath = string.Empty;
+        private readonly string documentPhotoPath;
+        private string selfiePhotoPath = string.Empty;
 
-        public DocumentCapturePage(string qrCode)
+        public SelfiePage(string qrCode, string documentPhotoPath)
         {
             InitializeComponent();
             this.qrCode = qrCode;
+            this.documentPhotoPath = documentPhotoPath;
         }
 
-        private async void OnTakePhotoClicked(object sender, EventArgs e)
+        private async void OnTakeSelfieClicked(object sender, EventArgs e)
         {
             try
             {
@@ -24,14 +26,14 @@ namespace KYCApp.Views
                     {
                         // Load the photo into the UI
                         var stream = await photo.OpenReadAsync();
-                        DocumentImage.Source = ImageSource.FromStream(() => stream);
+                        SelfieImage.Source = ImageSource.FromStream(() => stream);
                         
-                        // Show the image and continue button
-                        PhotoPlaceholder.IsVisible = false;
-                        DocumentImage.IsVisible = true;
+                        // Show the image and finish button
+                        SelfieePlaceholder.IsVisible = false;
+                        SelfieImage.IsVisible = true;
                         ContinueButton.IsVisible = true;
                         
-                        documentPhotoPath = photo.FullPath;
+                        selfiePhotoPath = photo.FullPath;
                     }
                 }
                 else
@@ -41,15 +43,23 @@ namespace KYCApp.Views
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"No se pudo tomar la foto: {ex.Message}", "OK");
+                await DisplayAlert("Error", $"No se pudo tomar la selfie: {ex.Message}", "OK");
+            }
+        }
+
+        private async void OnFinishClicked(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(selfiePhotoPath))
+            {
+                await Navigation.PushAsync(new ConfirmationPage(qrCode, documentPhotoPath));
             }
         }
 
         private async void OnContinueClicked(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(documentPhotoPath))
+            if (!string.IsNullOrEmpty(selfiePhotoPath))
             {
-                await Navigation.PushAsync(new PlacasCapturePage(qrCode, documentPhotoPath));
+                await Navigation.PushAsync(new ConfirmationPage(qrCode, documentPhotoPath));
             }
         }
 

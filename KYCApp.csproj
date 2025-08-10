@@ -9,12 +9,28 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Display Version -->
+		<!-- App Info -->
+		<ApplicationTitle>ControlVisitas</ApplicationTitle>
+		<ApplicationId>ControlVisitasApp</ApplicationId>
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
+		<!-- Android specific -->
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<AndroidApplication>true</AndroidApplication>
+		<AssemblyName>ControlVisitasApp</AssemblyName>
+
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<!-- Android APK naming -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+		<AndroidApkSigningKeyStore></AndroidApkSigningKeyStore>
+		<AndroidSigningKeyAlias></AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass></AndroidSigningKeyPass>
+		<AndroidSigningStorePass></AndroidSigningStorePass>
+		<AndroidApkOutputPath>bin\$(Configuration)\$(TargetFramework)\</AndroidApkOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>

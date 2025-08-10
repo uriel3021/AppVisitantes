@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="KYCApp.Views.DocumentCapturePage"
-             Title="Captura Documento"
+             x:Class="KYCApp.Views.SelfiePage"
+             Title="Selfie Verificación"
              BackgroundColor="#000000">
 
     <ScrollView>
@@ -29,7 +29,7 @@
                             Clicked="OnBackClicked"
                             VerticalOptions="Center" />
                     
-                    <Label Text="📄 Captura Documento" 
+                    <Label Text="🤳 Selfie Verificación" 
                            FontSize="24" 
                            FontAttributes="Bold"
                            FontFamily="Arial"
@@ -50,7 +50,7 @@
             <!-- Contenido principal -->
             <StackLayout Padding="20" Spacing="25" BackgroundColor="#000000">
                 
-                <!-- Tarjeta principal de captura -->
+                <!-- Tarjeta principal de selfie -->
                 <Frame BackgroundColor="#1A1A1A" 
                        CornerRadius="16"
                        Padding="25,30"
@@ -58,46 +58,64 @@
                        BorderColor="#333333">
                     <StackLayout Spacing="20">
                         
-                        <!-- Área de imagen -->
+                        <!-- Área de selfie circular -->
                         <Frame BackgroundColor="#2A2A2A"
-                               CornerRadius="12"
-                               Padding="40,60"
+                               CornerRadius="100"
+                               Padding="0"
                                HasShadow="False"
-                               BorderColor="#444444">
-                            <StackLayout x:Name="PhotoPlaceholder" Spacing="15">
-                                <Label Text="📷" 
-                                       FontSize="48" 
+                               BorderColor="#8B5CF6"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               HorizontalOptions="Center">
+                            
+                            <StackLayout x:Name="SelfieePlaceholder" 
+                                         Spacing="10"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Label Text="🤳" 
+                                       FontSize="40" 
                                        HorizontalOptions="Center"
                                        TextColor="#8B5CF6" />
-                                <Label Text="Documento no capturado" 
-                                       FontSize="16" 
+                                <Label Text="Sin Selfie" 
+                                       FontSize="14" 
                                        FontFamily="Arial"
                                        FontAttributes="Bold"
                                        TextColor="#FFFFFF"
                                        HorizontalOptions="Center" />
-                                <Label Text="Toca el botón para capturar la foto del documento" 
-                                       FontSize="12" 
-                                       FontFamily="Arial"
-                                       TextColor="#9CA3AF"
-                                       HorizontalOptions="Center"
-                                       HorizontalTextAlignment="Center" />
                             </StackLayout>
                             
-                            <Image x:Name="DocumentImage"
+                            <Ellipse x:Name="SelfieImageContainer"
+                                     IsVisible="False"
+                                     Fill="Transparent"
+                                     Stroke="#8B5CF6"
+                                     StrokeThickness="3"
+                                     WidthRequest="200"
+                                     HeightRequest="200">
+                                <Ellipse.Clip>
+                                    <EllipseGeometry Center="100,100" RadiusX="100" RadiusY="100" />
+                                </Ellipse.Clip>
+                            </Ellipse>
+                            
+                            <Image x:Name="SelfieImage"
                                    IsVisible="False"
-                                   Aspect="AspectFit"
-                                   HeightRequest="200" />
+                                   Aspect="AspectFill"
+                                   WidthRequest="200"
+                                   HeightRequest="200">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="100,100" RadiusX="98" RadiusY="98" />
+                                </Image.Clip>
+                            </Image>
                         </Frame>
                         
                         <!-- Botón de captura principal -->
-                        <Button Text="📸 Capturar Documento"
+                        <Button Text="🤳 Tomar Selfie"
                                 FontSize="16"
                                 FontAttributes="Bold"
                                 FontFamily="Arial"
                                 TextColor="White"
                                 CornerRadius="12"
                                 HeightRequest="50"
-                                Clicked="OnTakePhotoClicked">
+                                Clicked="OnTakeSelfieClicked">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                                     <GradientStop Color="#8B5CF6" Offset="0.0" />
@@ -108,14 +126,14 @@
                     </StackLayout>
                 </Frame>
                 
-                <!-- Tarjeta de instrucciones -->
+                <!-- Tarjeta de instrucciones para selfie -->
                 <Frame BackgroundColor="#1A1A1A" 
                        CornerRadius="16"
                        Padding="25,20"
                        HasShadow="False"
                        BorderColor="#333333">
                     <StackLayout Spacing="15">
-                        <Label Text="💡 Instrucciones de Captura" 
+                        <Label Text="✨ Consejos para tu Selfie Perfecto" 
                                FontSize="16" 
                                FontAttributes="Bold"
                                FontFamily="Arial"
@@ -124,7 +142,7 @@
                         <StackLayout Spacing="12">
                             <StackLayout Orientation="Horizontal" Spacing="10">
                                 <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
-                                <Label Text="Documento bien iluminado" 
+                                <Label Text="Mantén tu rostro bien centrado en el círculo" 
                                        FontSize="13" 
                                        FontFamily="Arial"
                                        TextColor="#E0E0E0"
@@ -133,7 +151,7 @@
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
                                 <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
-                                <Label Text="Mantener plano y sin dobleces" 
+                                <Label Text="Asegúrate de tener buena iluminación" 
                                        FontSize="13" 
                                        FontFamily="Arial"
                                        TextColor="#E0E0E0"
@@ -142,7 +160,7 @@
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
                                 <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
-                                <Label Text="Capturar toda la superficie" 
+                                <Label Text="Retira gafas de sol y mantén expresión neutral" 
                                        FontSize="13" 
                                        FontFamily="Arial"
                                        TextColor="#E0E0E0"
@@ -154,7 +172,7 @@
                 
                 <!-- Botón continuar -->
                 <Button x:Name="ContinueButton"
-                        Text="🚗 Continuar a Placas"
+                        Text="✅ Continuar al Resumen"
                         FontSize="16"
                         FontAttributes="Bold"
                         FontFamily="Arial"

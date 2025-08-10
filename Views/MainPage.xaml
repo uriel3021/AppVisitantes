@@ -2,33 +2,109 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KYCApp.Views.MainPage"
-             Title="KYC App"
-             BackgroundColor="White">
+             Title="ControlVisitas"
+             BackgroundColor="#000000">
 
     <ScrollView>
-        <StackLayout Padding="20" Spacing="15">
-            <Label Text="🔍 KYC App" 
-                   FontSize="28" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" 
-                   TextColor="Black"
-                   Margin="0,30,0,20" />
+        <StackLayout Spacing="0">
             
-            <Label Text="Sistema de Verificación de Visitantes" 
-                   FontSize="16" 
-                   HorizontalOptions="Center" 
-                   TextColor="Gray"
-                   Margin="0,0,0,30" />
+            <!-- Header con gradiente estilo oscuro -->
+            <Frame HasShadow="False"
+                   CornerRadius="0"
+                   Padding="25,50,25,30">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#8B5CF6" Offset="0.0" />
+                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+                <StackLayout>
+                    <Label Text="🏢 Control Visitas" 
+                           FontSize="32" 
+                           FontAttributes="Bold"
+                           FontFamily="Arial"
+                           HorizontalOptions="Start" 
+                           TextColor="#FFFFFF" />
+                    
+                    <Label Text="Sistema de Registro de Visitantes" 
+                           FontSize="16" 
+                           FontFamily="Arial"
+                           HorizontalOptions="Start" 
+                           TextColor="#E0E7FF"
+                           Margin="0,8,0,0" />
+                </StackLayout>
+            </Frame>
             
-            <Button x:Name="ScanQRButton"
-                    Text="📱 Escanear Código QR"
-                    BackgroundColor="#007ACC"
-                    TextColor="White"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    HeightRequest="50"
-                    CornerRadius="8"
-                    Clicked="OnScanQRClicked" />
+            <!-- Contenido principal con fondo oscuro -->
+            <StackLayout Padding="20" Spacing="25" BackgroundColor="#000000">
+                
+                <!-- Tarjeta principal estilo oscuro -->
+                <Frame BackgroundColor="#1A1A1A" 
+                       HasShadow="True" 
+                       CornerRadius="16"
+                       Padding="25,30"
+                       BorderColor="#333333">
+                    <StackLayout Spacing="20">
+                        
+                        <!-- Escáner QR -->
+                        <Frame BackgroundColor="#8B5CF6" 
+                               CornerRadius="12"
+                               Padding="20,25"
+                               HasShadow="False">
+                            <Frame.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Frame.Background>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackLayout Grid.Column="0" VerticalOptions="Center">
+                                    <Label Text="Validar Visitante" 
+                                           FontSize="20" 
+                                           FontAttributes="Bold"
+                                           FontFamily="Arial"
+                                           TextColor="White" />
+                                    <Label Text="Escaneo de Código QR" 
+                                           FontSize="12" 
+                                           FontFamily="Arial"
+                                           TextColor="#E0E7FF" />
+                                    <Label Text="📱 Escanea el código QR del visitante registrado" 
+                                           FontSize="14" 
+                                           FontFamily="Arial"
+                                           TextColor="White"
+                                           Margin="0,5,0,0" />
+                                </StackLayout>
+                                
+                                <Label Grid.Column="1" 
+                                       Text="📱" 
+                                       FontSize="32"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                            
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnScanQRClicked" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        
+                        <!-- Mensaje informativo -->
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Label Text="ℹ️" FontSize="16" VerticalOptions="Center" />
+                            <Label Text="Escanea el código QR para iniciar registro" 
+                                   FontSize="12" 
+                                   FontFamily="Arial"
+                                   TextColor="#9CA3AF"
+                                   VerticalOptions="Center"
+                                   LineBreakMode="TailTruncation" />
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 

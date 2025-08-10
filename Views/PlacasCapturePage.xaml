@@ -1,106 +1,210 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="KYCApp.Views.PlacasCapturePage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Captura de Placas">
-    
+             x:Class="KYCApp.Views.PlacasCapturePage"
+             Title="Registro Vehicular"
+             BackgroundColor="#000000">
+
     <ScrollView>
-        <StackLayout Padding="20" Spacing="20">
+        <StackLayout Spacing="0">
             
-            <!-- Header -->
-            <Label Text="📸 Captura de Placas del Vehículo" 
-                   FontSize="24" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#6200EE"/>
-            
-            <Label Text="Tome una foto clara de las placas del vehículo del visitante" 
-                   FontSize="16"
-                   HorizontalOptions="Center"
-                   HorizontalTextAlignment="Center"
-                   TextColor="Gray"/>
-
-            <!-- Camera Preview Area -->
-            <Frame BackgroundColor="LightGray" 
-                   HeightRequest="300"
-                   HasShadow="True"
-                   CornerRadius="10">
-                <StackLayout>
-                    <Image x:Name="PlacasImagePreview" 
-                           Aspect="AspectFit"
-                           IsVisible="False"/>
+            <!-- Header con gradiente Galxe -->
+            <Frame HasShadow="False"
+                   CornerRadius="0"
+                   Padding="25,50,25,30">
+                <Frame.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#8B5CF6" Offset="0.0" />
+                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Frame.Background>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="✕"
+                            FontSize="24"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            CornerRadius="20"
+                            Clicked="OnBackClicked"
+                            VerticalOptions="Center" />
                     
-                    <Label x:Name="PlaceholderLabel"
-                           Text="🚗 Imagen de las placas aparecerá aquí"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           FontSize="16"
-                           TextColor="Gray"/>
-                </StackLayout>
-            </Frame>
-
-            <!-- Instructions -->
-            <Frame BackgroundColor="#E3F2FD" 
-                   HasShadow="False"
-                   CornerRadius="10"
-                   Padding="15">
-                <StackLayout>
-                    <Label Text="📋 Instrucciones:" 
+                    <Label Text="🚗 Registro Vehicular" 
+                           FontSize="24" 
                            FontAttributes="Bold"
-                           TextColor="#1976D2"/>
-                    <Label Text="• Asegúrese de que las placas sean visibles y legibles" 
-                           TextColor="#1976D2"/>
-                    <Label Text="• Evite reflejos y sombras" 
-                           TextColor="#1976D2"/>
-                    <Label Text="• Mantenga la cámara estable" 
-                           TextColor="#1976D2"/>
+                           FontFamily="Arial"
+                           TextColor="White" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="CenterAndExpand" />
+                    
+                    <Button Text="⋮"
+                            FontSize="24"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            VerticalOptions="Center" />
                 </StackLayout>
             </Frame>
-
-            <!-- Buttons -->
-            <StackLayout Spacing="15">
+            
+            <!-- Contenido principal -->
+            <StackLayout Padding="20" Spacing="25" BackgroundColor="#000000">
                 
-                <Button x:Name="TakePhotoButton"
-                        Text="📸 Tomar Foto de Placas"
-                        BackgroundColor="#4CAF50"
-                        TextColor="White"
-                        FontSize="18"
-                        HeightRequest="50"
-                        CornerRadius="25"
-                        Clicked="OnTakePhotoClicked"/>
-
-                <Button x:Name="RetakeButton"
-                        Text="🔄 Tomar Otra Foto"
-                        BackgroundColor="#FF9800"
-                        TextColor="White"
-                        FontSize="16"
-                        HeightRequest="45"
-                        CornerRadius="22"
-                        IsVisible="False"
-                        Clicked="OnRetakeClicked"/>
-
-                <Button x:Name="ContinueButton"
-                        Text="➡️ Continuar al Resumen"
-                        BackgroundColor="#6200EE"
-                        TextColor="White"
-                        FontSize="18"
-                        HeightRequest="50"
-                        CornerRadius="25"
-                        IsVisible="False"
-                        Clicked="OnContinueClicked"/>
-
-                <Button x:Name="BackButton"
-                        Text="⬅️ Regresar"
-                        BackgroundColor="Gray"
-                        TextColor="White"
-                        FontSize="16"
-                        HeightRequest="45"
-                        CornerRadius="22"
-                        Clicked="OnBackClicked"/>
-
+                <!-- Tarjeta de captura de placa -->
+                <Frame BackgroundColor="#1A1A1A" 
+                       CornerRadius="16"
+                       Padding="25,30"
+                       HasShadow="True"
+                       BorderColor="#333333">
+                    <StackLayout Spacing="20">
+                        
+                        <Label Text="Captura fotográfica de placas vehiculares" 
+                               FontSize="14" 
+                               FontFamily="Arial"
+                               TextColor="#9CA3AF"
+                               HorizontalOptions="Center" />
+                        
+                        <!-- Área de imagen -->
+                        <Frame BackgroundColor="#2A2A2A"
+                               CornerRadius="12"
+                               Padding="40,60"
+                               HasShadow="False"
+                               BorderColor="#444444">
+                            <StackLayout x:Name="PlacaPlaceholder" Spacing="15">
+                                <Label Text="🚗" 
+                                       FontSize="48" 
+                                       HorizontalOptions="Center"
+                                       TextColor="#8B5CF6" />
+                                <Label Text="Placa no capturada" 
+                                       FontSize="16" 
+                                       FontFamily="Arial"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF"
+                                       HorizontalOptions="Center" />
+                                <Label Text="Toca el botón para capturar la foto de la placa" 
+                                       FontSize="12" 
+                                       FontFamily="Arial"
+                                       TextColor="#9CA3AF"
+                                       HorizontalOptions="Center"
+                                       HorizontalTextAlignment="Center" />
+                            </StackLayout>
+                            
+                            <Image x:Name="PlacaImage"
+                                   IsVisible="False"
+                                   Aspect="AspectFit"
+                                   HeightRequest="200" />
+                        </Frame>
+                        
+                        <!-- Botón de captura principal -->
+                        <Button Text="📸 Capturar Placa"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                FontFamily="Arial"
+                                TextColor="White"
+                                CornerRadius="12"
+                                HeightRequest="50"
+                                Clicked="OnTakePhotoClicked">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Button.Background>
+                        </Button>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Tarjeta de especificaciones -->
+                <Frame BackgroundColor="#1A1A1A" 
+                       CornerRadius="16"
+                       Padding="25,20"
+                       HasShadow="False"
+                       BorderColor="#333333">
+                    <StackLayout Spacing="15">
+                        <Label Text="🔧 Especificaciones de Captura" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               FontFamily="Arial"
+                               TextColor="#FFFFFF" />
+                        
+                        <StackLayout Spacing="12">
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="Placa completamente visible y legible" 
+                                       FontSize="13" 
+                                       FontFamily="Arial"
+                                       TextColor="#E0E0E0"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="Evite reflejos de luz en la imagen" 
+                                       FontSize="13" 
+                                       FontFamily="Arial"
+                                       TextColor="#E0E0E0"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="Mantenga distancia adecuada para claridad" 
+                                       FontSize="13" 
+                                       FontFamily="Arial"
+                                       TextColor="#E0E0E0"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                            
+                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="Sin obstrucciones en la imagen" 
+                                       FontSize="13" 
+                                       FontFamily="Arial"
+                                       TextColor="#E0E0E0"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Botones de acción -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10,0,0">
+                    <Button Grid.Column="0"
+                            Text="🔄 Nueva Captura"
+                            FontSize="14"
+                            FontFamily="Arial"
+                            TextColor="White"
+                            BackgroundColor="#DC2626"
+                            CornerRadius="12"
+                            HeightRequest="45"
+                            Clicked="OnNewCaptureClicked" />
+                    
+                    <Button Grid.Column="1"
+                            x:Name="ContinueButton"
+                            Text="✅ Continuar"
+                            FontSize="14"
+                            FontFamily="Arial"
+                            TextColor="White"
+                            BackgroundColor="#059669"
+                            CornerRadius="12"
+                            HeightRequest="45"
+                            IsVisible="False"
+                            Clicked="OnContinueClicked" />
+                </Grid>
+                
+                <!-- Botón regresar -->
+                <Button Text="← Regresar"
+                        FontSize="14"
+                        FontFamily="Arial"
+                        TextColor="#9CA3AF"
+                        BackgroundColor="Transparent"
+                        CornerRadius="12"
+                        HeightRequest="40"
+                        Clicked="OnBackClicked"
+                        Margin="0,20,0,30" />
+                
             </StackLayout>
-
         </StackLayout>
     </ScrollView>
-    
+
 </ContentPage>
