@@ -28,18 +28,63 @@ namespace KYCApp.Services
                     var jsonContent = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine($"[API] Respuesta RAW: {jsonContent}");
                     
-                    // La API solo devuelve "true" o "false" como string
-                    string cleanResponse = jsonContent.Trim().Trim('"').ToLower();
-                    bool isValid = cleanResponse == "true";
+                    // La API ahora devuelve códigos numéricos: 0, 1, 2
+                    string cleanResponse = jsonContent.Trim().Trim('"');
                     
-                    return new QRValidationResult 
-                    { 
-                        IsValid = isValid, 
-                        Message = isValid ? "✅ Código QR válido" : "❌ Código QR no válido o no registrado",
-                        VisitanteName = isValid ? "Visitante Autorizado" : "No encontrado",
-                        VisitanteEmail = isValid ? "visitante@ejemplo.com" : "",
-                        FechaVisita = isValid ? DateTime.Now : null
-                    };
+                    if (int.TryParse(cleanResponse, out int statusCode))
+                    {
+                        return statusCode switch
+                        {
+                            0 => new QRValidationResult
+                            {
+                                IsValid = false,
+                                StatusCode = 0,
+                                Message = "❌ Código no autorizado",
+                                VisitanteName = "No autorizado",
+                                VisitanteEmail = "",
+                                FechaVisita = null
+                            },
+                            1 => new QRValidationResult
+                            {
+                                IsValid = true,
+                                StatusCode = 1,
+                                Message = "✅ Código autorizado",
+                                VisitanteName = "Visitante Autorizado",
+                                VisitanteEmail = "visitante@ejemplo.com",
+                                FechaVisita = DateTime.Now
+                            },
+                            2 => new QRValidationResult
+                            {
+                                IsValid = false,
+                                StatusCode = 2,
+                                Message = "⏰ Código expirado (acceso ya utilizado)",
+                                VisitanteName = "Acceso expirado",
+                                VisitanteEmail = "",
+                                FechaVisita = null
+                            },
+                            _ => new QRValidationResult
+                            {
+                                IsValid = false,
+                                StatusCode = -1,
+                                Message = $"❓ Código de respuesta desconocido: {statusCode}",
+                                VisitanteName = "Error desconocido",
+                                VisitanteEmail = "",
+                                FechaVisita = null
+                            }
+                        };
+                    }
+                    else
+                    {
+                        return new QRValidationResult
+                        {
+                            IsValid = false,
+                            StatusCode = -1,
+                            Message = "❌ Respuesta del servidor no válida",
+                            VisitanteName = "Error de formato",
+                            VisitanteEmail = "",
+                            FechaVisita = null
+                        };
+                    }
                 }
                 else
                 {
@@ -80,6 +125,7 @@ namespace KYCApp.Services
     public class QRValidationResult
     {
         public bool IsValid { get; set; }
+        public int StatusCode { get; set; }
         public string Message { get; set; } = string.Empty;
         public string VisitanteName { get; set; } = string.Empty;
         public string VisitanteEmail { get; set; } = string.Empty;
