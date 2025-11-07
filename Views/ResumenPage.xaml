@@ -225,21 +225,70 @@
                         FontAttributes="Bold"
                         FontFamily="Arial"
                         TextColor="White"
+                        BackgroundColor="#1A1A1A"
+                        BorderColor="#FFFFFF"
+                        BorderWidth="1"
                         CornerRadius="12"
                         HeightRequest="55"
                         Clicked="OnConfirmClicked"
-                        Margin="0,10,0,30">
-                    <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#8B3A3A" Offset="0.0" />
-                            <GradientStop Color="#A64545" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>
-                </Button>
+                        Margin="0,10,0,30" />
                 
             </StackLayout>
             </StackLayout>
         </ScrollView>
+
+        <!-- Overlay de Loading O'Donnell -->
+        <Grid x:Name="LoadingOverlay" 
+              IsVisible="False"
+              BackgroundColor="#E6000000">
+            
+            <Frame BackgroundColor="#1A1A1A"
+                   CornerRadius="20"
+                   Padding="30"
+                   WidthRequest="300"
+                   HeightRequest="200"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   BorderColor="#FFFFFF"
+                   HasShadow="True">
+                
+                <StackLayout Spacing="20">
+                    
+                    <!-- Logo O'Donnell -->
+                    <Image Source="odonnell_logo.svg" 
+                           HeightRequest="40"
+                           HorizontalOptions="Center" />
+                    
+                    <!-- Spinner de carga -->
+                    <ActivityIndicator x:Name="LoadingSpinner"
+                                     IsRunning="True"
+                                     IsVisible="True"
+                                     Color="#FFFFFF"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     HorizontalOptions="Center" />
+                    
+                    <!-- Mensaje de carga -->
+                    <Label x:Name="LoadingMessage"
+                           Text="Procesando registro..."
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    
+                    <!-- Submensaje -->
+                    <Label Text="Por favor espere un momento"
+                           FontSize="12"
+                           FontFamily="Arial"
+                           TextColor="#9CA3AF"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    
+                </StackLayout>
+            </Frame>
+        </Grid>
 
         <!-- Overlay de confirmación personalizado -->
     <Grid x:Name="ConfirmationOverlay" 

@@ -94,19 +94,18 @@ namespace KYCApp.Views
 
         private async void OnConfirmClicked(object sender, EventArgs e)
         {
-            /*
-            if (validationResult == null || !validationResult.IsValid)
-            {
-                await DisplayAlert("Error", "No se pudieron cargar los datos del visitante", "OK");
-                return;
-            }
-            */
             try
             {
+                // Mostrar loading
+                ShowLoading(true, "Procesando registro...");
+                
                 var uploadService = new ImageUploadService();
                 
                 string documentUrl = "";
                 string placasUrl = "";
+
+                // Actualizar mensaje del loading
+                UpdateLoadingMessage("Subiendo documento...");
 
                 // Subir foto del documento (tipo 2 = INE/documento)
                 if (!string.IsNullOrEmpty(documentPhotoPath))
@@ -132,16 +131,21 @@ namespace KYCApp.Views
                         else
                         {
                             System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error subiendo documento: {documentResult.Message}");
+                            ShowLoading(false); // Ocultar loading en caso de error
                             ShowErrorOverlay("Error de Subida", $"Error subiendo foto del documento.\nError de conexión.\n\nDetalles técnicos:\n{documentResult.Message}");
                             return;
                         }
                     }
                     else
                     {
+                        ShowLoading(false); // Ocultar loading en caso de error
                         ShowErrorOverlay("Error de Archivo", $"No se encontró el archivo del documento en:\n{documentPhotoPath}");
                         return;
                     }
                 }
+
+                // Actualizar mensaje del loading
+                UpdateLoadingMessage("Subiendo foto de placas...");
 
                 // Subir foto de placas (tipo 1 = placas)
                 if (!string.IsNullOrEmpty(placasPhotoPath))
@@ -167,16 +171,23 @@ namespace KYCApp.Views
                         else
                         {
                             System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error subiendo placas: {placasResult.Message}");
+                            ShowLoading(false); // Ocultar loading en caso de error
                             ShowErrorOverlay("Error de Subida", $"Error subiendo foto de placas.\nError de conexión.\n\nDetalles técnicos:\n{placasResult.Message}");
                             return;
                         }
                     }
                     else
                     {
+                        ShowLoading(false); // Ocultar loading en caso de error
                         ShowErrorOverlay("Error de Archivo", $"No se encontró el archivo de placas en:\n{placasPhotoPath}");
                         return;
                     }
                 }
+
+                // Finalizar loading
+                UpdateLoadingMessage("Finalizando registro...");
+                await Task.Delay(500); // Pequeña pausa para mostrar el mensaje final
+                ShowLoading(false);
 
                 // Mostrar confirmación con overlay personalizado
                 ShowConfirmationOverlay(
@@ -193,6 +204,7 @@ namespace KYCApp.Views
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error en confirmación: {ex.Message}");
+                ShowLoading(false); // Ocultar loading en caso de error
                 ShowErrorOverlay("Error de Confirmación", $"Error durante el proceso de confirmación: {ex.Message}");
             }
         }
@@ -274,6 +286,27 @@ namespace KYCApp.Views
             else
             {
                 // Error - no hacer nada, solo cerrar overlay
+            }
+        }
+
+        // Métodos para manejar el Loading Overlay
+        private void ShowLoading(bool show, string message = "Procesando...")
+        {
+            if (LoadingOverlay != null)
+            {
+                LoadingOverlay.IsVisible = show;
+                if (show && LoadingMessage != null)
+                {
+                    LoadingMessage.Text = message;
+                }
+            }
+        }
+
+        private void UpdateLoadingMessage(string message)
+        {
+            if (LoadingMessage != null)
+            {
+                LoadingMessage.Text = message;
             }
         }
     }
