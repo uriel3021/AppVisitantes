@@ -2,39 +2,107 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KYCApp.Views.ConfirmationPage"
-             Title="Confirmación">
+             Title="Confirmación"
+             BackgroundColor="#000000">
 
     <ScrollView>
-        <StackLayout Padding="20">
+        <StackLayout Spacing="0">
+            
+            <!-- Header con estilo O'Donnell -->
+            <Frame HasShadow="False"
+                   CornerRadius="0"
+                   Padding="25,50,25,30"
+                   BackgroundColor="#1A1A1A">
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="✕"
+                            FontSize="24"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            CornerRadius="20"
+                            VerticalOptions="Center" />
+                    
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                        <Image Source="odonnell_logo.svg" 
+                               HeightRequest="30"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,8" />
+                        <Label Text="✅ Confirmación" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               FontFamily="Arial"
+                               TextColor="White" 
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                    
+                    <Button Text="⋮"
+                            FontSize="24"
+                            TextColor="White"
+                            BackgroundColor="Transparent"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            VerticalOptions="Center" />
+                </StackLayout>
+            </Frame>
+            
+            <!-- Contenido principal -->
+            <StackLayout Padding="20" Spacing="25" BackgroundColor="#000000">
             <Label Text="¡Proceso KYC Completado!" 
                    FontSize="24"
                    FontAttributes="Bold"
+                   FontFamily="Arial"
+                   TextColor="#FFFFFF"
                    HorizontalOptions="Center"
                    Margin="0,20,0,30" />
 
             <Label Text="Resumen de datos capturados:" 
                    FontSize="18"
                    FontAttributes="Bold"
+                   FontFamily="Arial"
+                   TextColor="#E0E0E0"
                    Margin="0,0,0,20" />
 
-            <Frame BackgroundColor="LightGray" Padding="15" Margin="0,0,0,20">
+            <Frame BackgroundColor="#1A1A1A" 
+                   BorderColor="#333333"
+                   CornerRadius="12"
+                   Padding="15" 
+                   Margin="0,0,0,20">
                 <StackLayout>
-                    <Label Text="Código QR:" FontAttributes="Bold" />
-                    <Label x:Name="QRCodeLabel" FontSize="16" />
+                    <Label Text="Código QR:" 
+                           FontAttributes="Bold" 
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF" />
+                    <Label x:Name="QRCodeLabel" 
+                           FontSize="16" 
+                           FontFamily="Arial"
+                           TextColor="#E0E0E0" />
                 </StackLayout>
             </Frame>
 
-            <Label Text="Documento:" FontAttributes="Bold" Margin="0,0,0,10" />
-            <Frame BackgroundColor="LightGray" Margin="0,0,0,20" HeightRequest="200">
+            <Label Text="Documento:" 
+                   FontAttributes="Bold" 
+                   FontFamily="Arial"
+                   TextColor="#FFFFFF"
+                   Margin="0,0,0,10" />
+            <Frame BackgroundColor="#1A1A1A" 
+                   BorderColor="#333333"
+                   CornerRadius="12"
+                   Margin="0,0,0,20" 
+                   HeightRequest="200">
                 <Image x:Name="DocumentImage" Aspect="AspectFit" />
             </Frame>
 
             <Button Text="Nuevo Proceso"
-                    BackgroundColor="#007ACC"
+                    BackgroundColor="#1A1A1A"
+                    BorderColor="#FFFFFF"
+                    BorderWidth="1"
                     TextColor="White"
                     FontSize="18"
+                    CornerRadius="12"
                     Clicked="OnNewProcessClicked"
                     Margin="0,20,0,0" />
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 

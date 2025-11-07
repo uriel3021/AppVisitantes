@@ -13,17 +13,12 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header con gradiente O'Donnell -->
+        <!-- Header con estilo O'Donnell -->
         <Frame Grid.Row="0" 
                HasShadow="False"
                CornerRadius="0"
-               Padding="25,50,25,20">
-            <Frame.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#8B3A3A" Offset="0.0" />
-                    <GradientStop Color="#A64545" Offset="1.0" />
-                </LinearGradientBrush>
-            </Frame.Background>
+               Padding="25,50,25,20"
+               BackgroundColor="#1A1A1A">
             <StackLayout Orientation="Horizontal">
                 <Button Text="✕"
                         FontSize="24"
@@ -73,12 +68,12 @@
                          HeightRequest="150" 
                          VerticalOptions="Start" />
                 
-                <!-- Marco de escaneo central estilo Galxe -->
+                <!-- Marco de escaneo central estilo O'Donnell -->
                 <Frame WidthRequest="280" 
                        HeightRequest="280"
                        CornerRadius="20"
                        BackgroundColor="Transparent"
-                       BorderColor="#8B5CF6"
+                       BorderColor="#FFFFFF"
                        HasShadow="True"
                        VerticalOptions="Center"
                        HorizontalOptions="Center">
@@ -87,26 +82,26 @@
                     <Grid>
                         <!-- Esquina superior izquierda -->
                         <StackLayout HorizontalOptions="Start" VerticalOptions="Start">
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="4" HeightRequest="25" />
                         </StackLayout>
                         
                         <!-- Esquina superior derecha -->
                         <StackLayout HorizontalOptions="End" VerticalOptions="Start">
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
                         </StackLayout>
                         
                         <!-- Esquina inferior izquierda -->
                         <StackLayout HorizontalOptions="Start" VerticalOptions="End">
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" />
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="4" HeightRequest="25" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="25" HeightRequest="4" />
                         </StackLayout>
                         
                         <!-- Esquina inferior derecha -->
                         <StackLayout HorizontalOptions="End" VerticalOptions="End">
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
-                            <BoxView BackgroundColor="#8B5CF6" WidthRequest="25" HeightRequest="4" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="4" HeightRequest="25" HorizontalOptions="End" />
+                            <BoxView BackgroundColor="#FFFFFF" WidthRequest="25" HeightRequest="4" />
                         </StackLayout>
                         
                         <!-- Texto central -->
@@ -165,7 +160,9 @@
                             FontSize="14"
                             FontFamily="Arial"
                             TextColor="White"
-                            BackgroundColor="#8B5CF6"
+                            BackgroundColor="#1A1A1A"
+                            BorderColor="#FFFFFF"
+                            BorderWidth="1"
                             CornerRadius="12"
                             HeightRequest="45"
                             Clicked="OnToggleFlashClicked" />
@@ -185,7 +182,7 @@
                    HeightRequest="400"
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
-                   BorderColor="#8B5CF6"
+                   BorderColor="#FFFFFF"
                    HasShadow="True">
                 
                 <StackLayout Spacing="20">
@@ -195,7 +192,7 @@
                            Text="⏳"
                            FontSize="48"
                            HorizontalOptions="Center"
-                           TextColor="#8B5CF6" />
+                           TextColor="#FFFFFF" />
                     
                     <!-- Título -->
                     <Label x:Name="ValidationTitle"
@@ -230,7 +227,7 @@
                                 <Label x:Name="VisitanteEmail" 
                                        FontSize="12" 
                                        FontFamily="Arial"
-                                       TextColor="#8B5CF6" />
+                                       TextColor="#9CA3AF" />
                                 <Label x:Name="VisitanteFecha" 
                                        FontSize="12" 
                                        FontFamily="Arial"
@@ -246,16 +243,14 @@
                             FontAttributes="Bold"
                             FontFamily="Arial"
                             TextColor="White"
+                            BackgroundColor="#1A1A1A"
+                            BorderColor="#FFFFFF"
+                            BorderWidth="1"
                             CornerRadius="12"
                             HeightRequest="50"
                             IsVisible="False"
                             Clicked="OnValidationButtonClicked">
-                        <Button.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#8B3A3A" Offset="0.0" />
-                                <GradientStop Color="#A64545" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Button.Background>
+
                     </Button>
                     
                 </StackLayout>

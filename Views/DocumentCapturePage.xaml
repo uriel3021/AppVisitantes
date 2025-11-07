@@ -8,16 +8,11 @@
     <ScrollView>
         <StackLayout Spacing="0">
             
-            <!-- Header con gradiente O'Donnell -->
+            <!-- Header con estilo O'Donnell -->
             <Frame HasShadow="False"
                    CornerRadius="0"
-                   Padding="25,50,25,30">
-                <Frame.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8B3A3A" Offset="0.0" />
-                        <GradientStop Color="#A64545" Offset="1.0" />
-                    </LinearGradientBrush>
-                </Frame.Background>
+                   Padding="25,50,25,30"
+                   BackgroundColor="#1A1A1A">
                 <StackLayout Orientation="Horizontal">
                     <Button Text="✕"
                             FontSize="24"
@@ -163,8 +158,8 @@
                         FontSize="16"
                         FontAttributes="Bold"
                         FontFamily="Arial"
-                        TextColor="White"
-                        BackgroundColor="#059669"
+                        TextColor="#1A1A1A"
+                        BackgroundColor="#FFFFFF"
                         CornerRadius="12"
                         HeightRequest="50"
                         IsVisible="False"

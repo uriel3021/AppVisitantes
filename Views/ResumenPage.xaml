@@ -83,7 +83,7 @@
                         <!-- Datos del visitante -->
                         <StackLayout Spacing="15">
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Center" />
+                                <Label Text="🔸" FontSize="12" TextColor="#1A1A1A" VerticalOptions="Center" />
                                 <Label Text="Código QR:" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -94,12 +94,12 @@
                                        Text="[QR_CODE]" 
                                        FontSize="13" 
                                        FontFamily="Arial"
-                                       TextColor="#8B5CF6"
+                                       TextColor="#1A1A1A"
                                        VerticalOptions="Center" />
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Center" />
+                                <Label Text="🔸" FontSize="12" TextColor="#1A1A1A" VerticalOptions="Center" />
                                 <Label Text="Nombre:" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -115,7 +115,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Center" />
+                                <Label Text="🔸" FontSize="12" TextColor="#1A1A1A" VerticalOptions="Center" />
                                 <Label Text="Empresa:" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -131,7 +131,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Center" />
+                                <Label Text="🔸" FontSize="12" TextColor="#1A1A1A" VerticalOptions="Center" />
                                 <Label Text="Área a visitar:" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -183,7 +183,7 @@
                                    Padding="15"
                                    HasShadow="False">
                                 <StackLayout Spacing="10">
-                                    <Label Text="📄" FontSize="32" HorizontalOptions="Center" TextColor="#8B5CF6" />
+                                    <Label Text="📄" FontSize="32" HorizontalOptions="Center" TextColor="#FFFFFF" />
                                     <Label Text="Documento" 
                                            FontSize="12" 
                                            FontFamily="Arial"
@@ -203,7 +203,7 @@
                                    Padding="15"
                                    HasShadow="False">
                                 <StackLayout Spacing="10">
-                                    <Label Text="🚗" FontSize="32" HorizontalOptions="Center" TextColor="#8B5CF6" />
+                                    <Label Text="🚗" FontSize="32" HorizontalOptions="Center" TextColor="#FFFFFF" />
                                     <Label Text="Placa Vehicular" 
                                            FontSize="12" 
                                            FontFamily="Arial"
