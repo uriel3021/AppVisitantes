@@ -108,38 +108,72 @@ namespace KYCApp.Views
                 string documentUrl = "";
                 string placasUrl = "";
 
-                // Subir foto del documento
-                if (!string.IsNullOrEmpty(documentPhotoPath) && File.Exists(documentPhotoPath))
+                // Subir foto del documento (tipo 2 = INE/documento)
+                if (!string.IsNullOrEmpty(documentPhotoPath))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo documento: {documentPhotoPath}");
-                    var documentResult = await uploadService.UploadImageAsync(documentPhotoPath, $"documento_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg");
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Verificando documento: {documentPhotoPath}");
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Archivo existe: {File.Exists(documentPhotoPath)}");
                     
-                    if (documentResult.IsSuccess)
+                    if (File.Exists(documentPhotoPath))
                     {
-                        documentUrl = documentResult.Url;
-                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Documento subido: {documentUrl}");
+                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo documento...");
+                        var documentResult = await uploadService.UploadImageAsync(
+                            documentPhotoPath, 
+                            $"documento_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg",
+                            qrCode, // Usando QR code como visitanteId
+                            2       // Tipo 2 = INE/documento
+                        );
+                        
+                        if (documentResult.IsSuccess)
+                        {
+                            documentUrl = documentResult.Url;
+                            System.Diagnostics.Debug.WriteLine($"[RESUMEN] Documento subido: {documentUrl}");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error subiendo documento: {documentResult.Message}");
+                            ShowErrorOverlay("Error de Subida", $"Error subiendo foto del documento.\nError de conexión.\n\nDetalles técnicos:\n{documentResult.Message}");
+                            return;
+                        }
                     }
                     else
                     {
-                        ShowErrorOverlay("Error de Subida", $"Error subiendo foto del documento: {documentResult.Message}");
+                        ShowErrorOverlay("Error de Archivo", $"No se encontró el archivo del documento en:\n{documentPhotoPath}");
                         return;
                     }
                 }
 
-                // Subir foto de placas
-                if (!string.IsNullOrEmpty(placasPhotoPath) && File.Exists(placasPhotoPath))
+                // Subir foto de placas (tipo 1 = placas)
+                if (!string.IsNullOrEmpty(placasPhotoPath))
                 {
-                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo placas: {placasPhotoPath}");
-                    var placasResult = await uploadService.UploadImageAsync(placasPhotoPath, $"placas_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg");
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Verificando placas: {placasPhotoPath}");
+                    System.Diagnostics.Debug.WriteLine($"[RESUMEN] Archivo existe: {File.Exists(placasPhotoPath)}");
                     
-                    if (placasResult.IsSuccess)
+                    if (File.Exists(placasPhotoPath))
                     {
-                        placasUrl = placasResult.Url;
-                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Placas subidas: {placasUrl}");
+                        System.Diagnostics.Debug.WriteLine($"[RESUMEN] Subiendo placas...");
+                        var placasResult = await uploadService.UploadImageAsync(
+                            placasPhotoPath, 
+                            $"placas_{qrCode}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg",
+                            qrCode, // Usando QR code como visitanteId
+                            1       // Tipo 1 = placas
+                        );
+                        
+                        if (placasResult.IsSuccess)
+                        {
+                            placasUrl = placasResult.Url;
+                            System.Diagnostics.Debug.WriteLine($"[RESUMEN] Placas subidas: {placasUrl}");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error subiendo placas: {placasResult.Message}");
+                            ShowErrorOverlay("Error de Subida", $"Error subiendo foto de placas.\nError de conexión.\n\nDetalles técnicos:\n{placasResult.Message}");
+                            return;
+                        }
                     }
                     else
                     {
-                        ShowErrorOverlay("Error de Subida", $"Error subiendo foto de placas: {placasResult.Message}");
+                        ShowErrorOverlay("Error de Archivo", $"No se encontró el archivo de placas en:\n{placasPhotoPath}");
                         return;
                     }
                 }
@@ -203,7 +237,7 @@ namespace KYCApp.Views
         private void ShowConfirmationOverlay(string title, string message, string qrInfo, string docInfo, string placasInfo, string fechaInfo)
         {
             ConfirmationIcon.Text = "✅";
-            ConfirmationIcon.TextColor = Color.FromArgb("#10B981");
+            ConfirmationIcon.TextColor = Color.FromArgb("#8B3A3A");
             ConfirmationTitle.Text = title;
             ConfirmationMessage.Text = message;
             QRInfo.Text = qrInfo;

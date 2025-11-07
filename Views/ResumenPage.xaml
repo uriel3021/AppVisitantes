@@ -9,14 +9,14 @@
         <ScrollView>
             <StackLayout Spacing="0">
             
-            <!-- Header con gradiente Galxe -->
+            <!-- Header con gradiente O'Donnell -->
             <Frame HasShadow="False"
                    CornerRadius="0"
                    Padding="25,50,25,30">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8B5CF6" Offset="0.0" />
-                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                        <GradientStop Color="#8B3A3A" Offset="0.0" />
+                        <GradientStop Color="#A64545" Offset="1.0" />
                     </LinearGradientBrush>
                 </Frame.Background>
                 <StackLayout Orientation="Horizontal">
@@ -30,13 +30,18 @@
                             Clicked="OnBackClicked"
                             VerticalOptions="Center" />
                     
-                    <Label Text="📋 Resumen Final" 
-                           FontSize="24" 
-                           FontAttributes="Bold"
-                           FontFamily="Arial"
-                           TextColor="White" 
-                           VerticalOptions="Center" 
-                           HorizontalOptions="CenterAndExpand" />
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                        <Image Source="odonnell_logo.svg" 
+                               HeightRequest="30"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,8" />
+                        <Label Text="📋 Resumen Final" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               FontFamily="Arial"
+                               TextColor="White" 
+                               HorizontalOptions="Center" />
+                    </StackLayout>
                     
                     <Button Text="⋮"
                             FontSize="24"
@@ -226,8 +231,8 @@
                         Margin="0,10,0,30">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#059669" Offset="0.0" />
-                            <GradientStop Color="#047857" Offset="1.0" />
+                            <GradientStop Color="#8B3A3A" Offset="0.0" />
+                            <GradientStop Color="#A64545" Offset="1.0" />
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>
@@ -324,8 +329,8 @@
                         Clicked="OnConfirmationButtonClicked">
                     <Button.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#8B5CF6" Offset="0.0" />
-                            <GradientStop Color="#3B82F6" Offset="1.0" />
+                            <GradientStop Color="#8B3A3A" Offset="0.0" />
+                            <GradientStop Color="#A64545" Offset="1.0" />
                         </LinearGradientBrush>
                     </Button.Background>
                 </Button>

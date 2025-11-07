@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KYCApp.Views.SplashPage"
+             Title="O'Donnell"
+             BackgroundColor="#FFFFFF"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid>
+        <!-- Fondo corporativo limpio -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FFFFFF" Offset="0.0" />
+                <GradientStop Color="#F8F9FA" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        
+        <!-- Contenido centrado -->
+        <StackLayout VerticalOptions="Center" 
+                     HorizontalOptions="Center"
+                     Spacing="40">
+            
+            <!-- Logo principal O'Donnell -->
+            <Image Source="odonnell_logo.svg" 
+                   HeightRequest="100"
+                   HorizontalOptions="Center"
+                   x:Name="LogoImage" />
+            
+            <!-- Texto corporativo -->
+            <StackLayout Spacing="10" HorizontalOptions="Center">
+                <Label Text="O'DONNELL" 
+                       FontSize="32" 
+                       FontAttributes="Bold"
+                       FontFamily="Arial"
+                       TextColor="#1A1A1A"
+                       HorizontalOptions="Center" />
+                
+                <Label Text="Desarrollamos y gestionamos edificios industriales" 
+                       FontSize="14" 
+                       FontFamily="Arial"
+                       TextColor="#666666"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       MaxLines="2" />
+            </StackLayout>
+            
+            <!-- Indicador de carga -->
+            <ActivityIndicator x:Name="LoadingIndicator"
+                             IsRunning="True"
+                             Color="#1A1A1A"
+                             HeightRequest="30"
+                             WidthRequest="30" />
+            
+            <!-- Texto de carga -->
+            <Label Text="Iniciando sistema..." 
+                   FontSize="12" 
+                   FontFamily="Arial"
+                   TextColor="#999999"
+                   HorizontalOptions="Center" />
+            
+        </StackLayout>
+        
+        <!-- Footer corporativo -->
+        <StackLayout VerticalOptions="End" 
+                     HorizontalOptions="Center"
+                     Margin="0,0,0,50">
+            
+            <Label Text="Sistema de Control de Visitantes" 
+                   FontSize="12" 
+                   FontFamily="Arial"
+                   TextColor="#CCCCCC"
+                   HorizontalOptions="Center" />
+                   
+            <Label Text="© 2025 O'Donnell Capital Management" 
+                   FontSize="10" 
+                   FontFamily="Arial"
+                   TextColor="#CCCCCC"
+                   HorizontalOptions="Center"
+                   Margin="0,5,0,0" />
+        </StackLayout>
+        
+    </Grid>
+</ContentPage>

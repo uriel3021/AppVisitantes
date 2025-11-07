@@ -129,6 +129,7 @@ namespace KYCApp.Services
         public string Message { get; set; } = string.Empty;
         public string VisitanteName { get; set; } = string.Empty;
         public string VisitanteEmail { get; set; } = string.Empty;
+        public string VisitanteId { get; set; } = string.Empty;
         public DateTime? FechaVisita { get; set; }
     }
 }

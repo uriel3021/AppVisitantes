@@ -14,8 +14,8 @@
                    Padding="25,50,25,30">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8B5CF6" Offset="0.0" />
-                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                        <GradientStop Color="#8B3A3A" Offset="0.0" />
+                        <GradientStop Color="#A64545" Offset="1.0" />
                     </LinearGradientBrush>
                 </Frame.Background>
                 <StackLayout Orientation="Horizontal">
@@ -63,7 +63,7 @@
                                CornerRadius="100"
                                Padding="0"
                                HasShadow="False"
-                               BorderColor="#8B5CF6"
+                               BorderColor="#8B3A3A"
                                WidthRequest="200"
                                HeightRequest="200"
                                HorizontalOptions="Center">
@@ -75,7 +75,7 @@
                                 <Label Text="🤳" 
                                        FontSize="40" 
                                        HorizontalOptions="Center"
-                                       TextColor="#8B5CF6" />
+                                       TextColor="#8B3A3A" />
                                 <Label Text="Sin Selfie" 
                                        FontSize="14" 
                                        FontFamily="Arial"
@@ -87,7 +87,7 @@
                             <Ellipse x:Name="SelfieImageContainer"
                                      IsVisible="False"
                                      Fill="Transparent"
-                                     Stroke="#8B5CF6"
+                                     Stroke="#8B3A3A"
                                      StrokeThickness="3"
                                      WidthRequest="200"
                                      HeightRequest="200">
@@ -118,8 +118,8 @@
                                 Clicked="OnTakeSelfieClicked">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
-                                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                                    <GradientStop Color="#8B3A3A" Offset="0.0" />
+                                    <GradientStop Color="#A64545" Offset="1.0" />
                                 </LinearGradientBrush>
                             </Button.Background>
                         </Button>
@@ -141,7 +141,7 @@
                         
                         <StackLayout Spacing="12">
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Mantén tu rostro bien centrado en el círculo" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -150,7 +150,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Asegúrate de tener buena iluminación" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -159,7 +159,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Retira gafas de sol y mantén expresión neutral" 
                                        FontSize="13" 
                                        FontFamily="Arial"

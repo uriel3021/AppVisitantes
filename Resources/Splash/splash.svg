@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="456" height="456" viewBox="0 0 456 456">
+<svg xmlns="http://www.w3.org/2000/svg" width="456" height="456" viewBox="0 0 456 456">
   <defs>
-    <linearGradient id="linear-gradient" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0" stop-color="#fff"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    <linearGradient id="bg-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F8F9FA"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
     </linearGradient>
   </defs>
-  <g>
-    <circle cx="228" cy="228" r="228" fill="#512BD4"/>
-    <circle cx="228" cy="228" r="128" fill="url(#linear-gradient)"/>
+  
+  <!-- Fondo blanco/gris claro -->
+  <rect width="456" height="456" fill="url(#bg-gradient)"/>
+  
+  <!-- Logo O'Donnell centrado -->
+  <g transform="translate(228, 228)">
+    <!-- Texto O'DONNELL -->
+    <text x="0" y="-20" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#1A1A1A">O'DONNELL</text>
+    
+    <!-- Línea separadora -->
+    <line x1="-80" y1="5" x2="80" y2="5" stroke="#1A1A1A" stroke-width="2"/>
+    
+    <!-- Subtítulo -->
+    <text x="0" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#666666">Capital Management</text>
   </g>
 </svg>

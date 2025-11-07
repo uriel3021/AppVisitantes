@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KYCApp.Views.MainPage"
              Title="ControlVisitas"
-             BackgroundColor="#000000">
+             BackgroundColor="#FFFFFF">
 
     <ScrollView>
         <StackLayout Spacing="0">
@@ -13,49 +13,49 @@
                    CornerRadius="0"
                    Padding="25,50,25,30">
                 <Frame.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8B5CF6" Offset="0.0" />
-                        <GradientStop Color="#3B82F6" Offset="1.0" />
-                    </LinearGradientBrush>
+                    <SolidColorBrush Color="#FFFFFF" />
                 </Frame.Background>
                 <StackLayout>
-                    <Label Text="🏢 Control Visitas" 
-                           FontSize="32" 
-                           FontAttributes="Bold"
-                           FontFamily="Arial"
-                           HorizontalOptions="Start" 
-                           TextColor="#FFFFFF" />
+                    <!-- Logo de O'Donnell corporativo -->
+                    <Image Source="odonnell_logo.svg" 
+                           HeightRequest="60"
+                           HorizontalOptions="Start"
+                           Margin="0,0,0,20" />
                     
-                    <Label Text="Sistema de Registro de Visitantes" 
-                           FontSize="16" 
+                    <Label Text="Control de Visitantes" 
+                           FontSize="32" 
+                           FontAttributes="None"
                            FontFamily="Arial"
                            HorizontalOptions="Start" 
-                           TextColor="#E0E7FF"
+                           TextColor="#1A1A1A" />
+                    
+                    <Label Text="Desarrollamos y gestionamos edificios industriales" 
+                           FontSize="14" 
+                           FontFamily="Arial"
+                           HorizontalOptions="Start" 
+                           TextColor="#666666"
                            Margin="0,8,0,0" />
                 </StackLayout>
             </Frame>
             
-            <!-- Contenido principal con fondo oscuro -->
-            <StackLayout Padding="20" Spacing="25" BackgroundColor="#000000">
+            <!-- Contenido principal limpio -->
+            <StackLayout Padding="30" Spacing="30" BackgroundColor="#FFFFFF">
                 
-                <!-- Tarjeta principal estilo oscuro -->
-                <Frame BackgroundColor="#1A1A1A" 
+                <!-- Tarjeta principal estilo corporativo -->
+                <Frame BackgroundColor="#F8F9FA" 
                        HasShadow="True" 
-                       CornerRadius="16"
-                       Padding="25,30"
-                       BorderColor="#333333">
+                       CornerRadius="12"
+                       Padding="30,25"
+                       BorderColor="#E8E8E8">
                     <StackLayout Spacing="20">
                         
                         <!-- Escáner QR -->
-                        <Frame BackgroundColor="#8B5CF6" 
-                               CornerRadius="12"
-                               Padding="20,25"
-                               HasShadow="False">
+                        <Frame BackgroundColor="#1A1A1A" 
+                               CornerRadius="8"
+                               Padding="25,20"
+                               HasShadow="True">
                             <Frame.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
-                                    <GradientStop Color="#3B82F6" Offset="1.0" />
-                                </LinearGradientBrush>
+                                <SolidColorBrush Color="#1A1A1A" />
                             </Frame.Background>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -64,25 +64,26 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <StackLayout Grid.Column="0" VerticalOptions="Center">
-                                    <Label Text="Validar Visitante" 
-                                           FontSize="20" 
+                                    <Label Text="Acceso de Visitantes" 
+                                           FontSize="18" 
                                            FontAttributes="Bold"
                                            FontFamily="Arial"
                                            TextColor="White" />
-                                    <Label Text="Escaneo de Código QR" 
+                                    <Label Text="Validación y Registro" 
+                                           FontSize="13" 
+                                           FontFamily="Arial"
+                                           TextColor="#CCCCCC" />
+                                    <Label Text="Escaneo de código QR para visitantes autorizados" 
                                            FontSize="12" 
                                            FontFamily="Arial"
-                                           TextColor="#E0E7FF" />
-                                    <Label Text="📱 Escanea el código QR del visitante registrado" 
-                                           FontSize="14" 
-                                           FontFamily="Arial"
-                                           TextColor="White"
-                                           Margin="0,5,0,0" />
+                                           TextColor="#F0F0F0"
+                                           Margin="0,8,0,0" />
                                 </StackLayout>
                                 
                                 <Label Grid.Column="1" 
-                                       Text="📱" 
-                                       FontSize="32"
+                                       Text="⬜" 
+                                       FontSize="28"
+                                       TextColor="White"
                                        VerticalOptions="Center" />
                             </Grid>
                             

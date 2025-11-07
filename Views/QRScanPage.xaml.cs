@@ -165,7 +165,7 @@ namespace KYCApp.Views
             if (isValid)
             {
                 ValidationIcon.Text = "✅";
-                ValidationIcon.TextColor = Color.FromArgb("#10B981");
+                ValidationIcon.TextColor = Color.FromArgb("#8B3A3A");
                 ValidationTitle.Text = "QR Válido";
                 ValidationMessage.Text = message;
 
@@ -176,7 +176,7 @@ namespace KYCApp.Views
                 VisitanteInfo.IsVisible = true;
 
                 ValidationButton.Text = "Continuar";
-                ValidationButton.BackgroundColor = Color.FromArgb("#10B981");
+                ValidationButton.BackgroundColor = Color.FromArgb("#8B3A3A");
                 ValidationButton.IsVisible = true;
 
                 // Navegar automáticamente después de 2 segundos

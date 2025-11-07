@@ -8,14 +8,14 @@
     <ScrollView>
         <StackLayout Spacing="0">
             
-            <!-- Header con gradiente Galxe -->
+            <!-- Header con gradiente O'Donnell -->
             <Frame HasShadow="False"
                    CornerRadius="0"
                    Padding="25,50,25,30">
                 <Frame.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#8B5CF6" Offset="0.0" />
-                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                        <GradientStop Color="#8B3A3A" Offset="0.0" />
+                        <GradientStop Color="#A64545" Offset="1.0" />
                     </LinearGradientBrush>
                 </Frame.Background>
                 <StackLayout Orientation="Horizontal">
@@ -29,13 +29,18 @@
                             Clicked="OnBackClicked"
                             VerticalOptions="Center" />
                     
-                    <Label Text="📄 Captura Documento" 
-                           FontSize="24" 
-                           FontAttributes="Bold"
-                           FontFamily="Arial"
-                           TextColor="White" 
-                           VerticalOptions="Center" 
-                           HorizontalOptions="CenterAndExpand" />
+                    <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                        <Image Source="odonnell_logo.svg" 
+                               HeightRequest="30"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,8" />
+                        <Label Text="📄 Captura Documento" 
+                               FontSize="18" 
+                               FontAttributes="Bold"
+                               FontFamily="Arial"
+                               TextColor="White" 
+                               HorizontalOptions="Center" />
+                    </StackLayout>
                     
                     <Button Text="⋮"
                             FontSize="24"
@@ -68,7 +73,7 @@
                                 <Label Text="📷" 
                                        FontSize="48" 
                                        HorizontalOptions="Center"
-                                       TextColor="#8B5CF6" />
+                                       TextColor="#8B3A3A" />
                                 <Label Text="Documento no capturado" 
                                        FontSize="16" 
                                        FontFamily="Arial"
@@ -100,8 +105,8 @@
                                 Clicked="OnTakePhotoClicked">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
-                                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                                    <GradientStop Color="#8B3A3A" Offset="0.0" />
+                                    <GradientStop Color="#A64545" Offset="1.0" />
                                 </LinearGradientBrush>
                             </Button.Background>
                         </Button>
@@ -123,7 +128,7 @@
                         
                         <StackLayout Spacing="12">
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Documento bien iluminado" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -132,7 +137,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Mantener plano y sin dobleces" 
                                        FontSize="13" 
                                        FontFamily="Arial"
@@ -141,7 +146,7 @@
                             </StackLayout>
                             
                             <StackLayout Orientation="Horizontal" Spacing="10">
-                                <Label Text="🔸" FontSize="12" TextColor="#8B5CF6" VerticalOptions="Start" />
+                                <Label Text="🔸" FontSize="12" TextColor="#8B3A3A" VerticalOptions="Start" />
                                 <Label Text="Capturar toda la superficie" 
                                        FontSize="13" 
                                        FontFamily="Arial"

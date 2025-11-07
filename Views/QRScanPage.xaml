@@ -13,15 +13,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Header con gradiente Galxe -->
+        <!-- Header con gradiente O'Donnell -->
         <Frame Grid.Row="0" 
                HasShadow="False"
                CornerRadius="0"
                Padding="25,50,25,20">
             <Frame.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#8B5CF6" Offset="0.0" />
-                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                    <GradientStop Color="#8B3A3A" Offset="0.0" />
+                    <GradientStop Color="#A64545" Offset="1.0" />
                 </LinearGradientBrush>
             </Frame.Background>
             <StackLayout Orientation="Horizontal">
@@ -35,13 +35,18 @@
                         Clicked="OnBackClicked"
                         VerticalOptions="Center" />
                 
-                <Label Text="⚡ Escáner QR" 
-                       FontSize="24" 
-                       FontAttributes="Bold"
-                       FontFamily="Arial"
-                       TextColor="White" 
-                       VerticalOptions="Center" 
-                       HorizontalOptions="CenterAndExpand" />
+                <StackLayout VerticalOptions="Center" HorizontalOptions="CenterAndExpand">
+                    <Image Source="odonnell_logo.svg" 
+                           HeightRequest="30"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,8" />
+                    <Label Text="⚡ Escáner QR" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           FontFamily="Arial"
+                           TextColor="White" 
+                           HorizontalOptions="Center" />
+                </StackLayout>
                 
                 <Button Text="⋮"
                         FontSize="24"
@@ -247,8 +252,8 @@
                             Clicked="OnValidationButtonClicked">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#8B5CF6" Offset="0.0" />
-                                <GradientStop Color="#3B82F6" Offset="1.0" />
+                                <GradientStop Color="#8B3A3A" Offset="0.0" />
+                                <GradientStop Color="#A64545" Offset="1.0" />
                             </LinearGradientBrush>
                         </Button.Background>
                     </Button>

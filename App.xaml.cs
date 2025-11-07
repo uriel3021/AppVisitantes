@@ -1,3 +1,5 @@
+using KYCApp.Views;
+
 namespace KYCApp;
 
 public partial class App : Application
@@ -6,6 +8,7 @@ public partial class App : Application
     {
         InitializeComponent();
         
+        // Ir directamente a AppShell después del splash nativo
         MainPage = new AppShell();
     }
     
