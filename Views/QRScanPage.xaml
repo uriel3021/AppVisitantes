@@ -167,6 +167,95 @@
                 </Grid>
             </StackLayout>
         </Frame>
+        
+        <!-- Overlay de validación estilo Galxe -->
+        <Grid x:Name="ValidationOverlay"
+              BackgroundColor="#E6000000"
+              IsVisible="False">
+            
+            <Frame BackgroundColor="#1A1A1A"
+                   CornerRadius="20"
+                   Padding="30"
+                   WidthRequest="320"
+                   HeightRequest="400"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   BorderColor="#8B5CF6"
+                   HasShadow="True">
+                
+                <StackLayout Spacing="20">
+                    
+                    <!-- Icono de estado -->
+                    <Label x:Name="ValidationIcon"
+                           Text="⏳"
+                           FontSize="48"
+                           HorizontalOptions="Center"
+                           TextColor="#8B5CF6" />
+                    
+                    <!-- Título -->
+                    <Label x:Name="ValidationTitle"
+                           Text="Validando QR"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center" />
+                    
+                    <!-- Mensaje -->
+                    <Label x:Name="ValidationMessage"
+                           Text="Verificando código en el sistema..."
+                           FontSize="14"
+                           FontFamily="Arial"
+                           TextColor="#9CA3AF"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    
+                    <!-- Información del visitante (oculta inicialmente) -->
+                    <StackLayout x:Name="VisitanteInfo" IsVisible="False" Spacing="10">
+                        <Frame BackgroundColor="#2A2A2A" 
+                               CornerRadius="12" 
+                               Padding="15"
+                               BorderColor="#333333">
+                            <StackLayout Spacing="8">
+                                <Label x:Name="VisitanteNombre" 
+                                       FontSize="16" 
+                                       FontFamily="Arial"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF" />
+                                <Label x:Name="VisitanteEmail" 
+                                       FontSize="12" 
+                                       FontFamily="Arial"
+                                       TextColor="#8B5CF6" />
+                                <Label x:Name="VisitanteFecha" 
+                                       FontSize="12" 
+                                       FontFamily="Arial"
+                                       TextColor="#9CA3AF" />
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    
+                    <!-- Botón de acción -->
+                    <Button x:Name="ValidationButton"
+                            Text="Cerrar"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            FontFamily="Arial"
+                            TextColor="White"
+                            CornerRadius="12"
+                            HeightRequest="50"
+                            IsVisible="False"
+                            Clicked="OnValidationButtonClicked">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                <GradientStop Color="#3B82F6" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    
+                </StackLayout>
+            </Frame>
+        </Grid>
     </Grid>
 
 </ContentPage>

@@ -94,12 +94,13 @@ namespace KYCApp.Views
 
         private async void OnConfirmClicked(object sender, EventArgs e)
         {
+            /*
             if (validationResult == null || !validationResult.IsValid)
             {
                 await DisplayAlert("Error", "No se pudieron cargar los datos del visitante", "OK");
                 return;
             }
-
+            */
             try
             {
                 var uploadService = new ImageUploadService();
@@ -120,7 +121,7 @@ namespace KYCApp.Views
                     }
                     else
                     {
-                        await DisplayAlert("❌ Error", $"Error subiendo foto del documento: {documentResult.Message}", "OK");
+                        ShowErrorOverlay("Error de Subida", $"Error subiendo foto del documento: {documentResult.Message}");
                         return;
                     }
                 }
@@ -138,31 +139,27 @@ namespace KYCApp.Views
                     }
                     else
                     {
-                        await DisplayAlert("❌ Error", $"Error subiendo foto de placas: {placasResult.Message}", "OK");
+                        ShowErrorOverlay("Error de Subida", $"Error subiendo foto de placas: {placasResult.Message}");
                         return;
                     }
                 }
 
-                // Cancelar el alert de carga
-                // loadingAlert is not awaitable here, so we'll show success instead
-                
-                await DisplayAlert("✅ Visita Confirmada", 
-                    $"La visita de {validationResult.VisitanteName} ha sido registrada exitosamente.\n\n" +
-                    $"Código QR: {qrCode}\n" +
-                    $"Documento: {(string.IsNullOrEmpty(documentUrl) ? "No subido" : "✅ Subido")}\n" +
-                    $"Placas: {(string.IsNullOrEmpty(placasUrl) ? "No subido" : "✅ Subido")}\n" +
-                    $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}", 
-                    "OK");
+                // Mostrar confirmación con overlay personalizado
+                ShowConfirmationOverlay(
+                    "Visita Confirmada",
+                    "La visita ha sido registrada exitosamente.",
+                    $"Código QR: {qrCode}",
+                    $"Documento: {(string.IsNullOrEmpty(documentUrl) ? "No subido" : "✅ Subido")}",
+                    $"Placas: {(string.IsNullOrEmpty(placasUrl) ? "No subido" : "✅ Subido")}",
+                    $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}"
+                );
 
                 System.Diagnostics.Debug.WriteLine($"[RESUMEN] Visita registrada - Documento: {documentUrl}, Placas: {placasUrl}");
-
-                // Return to main page
-                await Navigation.PopToRootAsync();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[RESUMEN] Error en confirmación: {ex.Message}");
-                await DisplayAlert("❌ Error", $"Error durante el proceso de confirmación: {ex.Message}", "OK");
+                ShowErrorOverlay("Error de Confirmación", $"Error durante el proceso de confirmación: {ex.Message}");
             }
         }
 
@@ -200,6 +197,50 @@ namespace KYCApp.Views
         private async void OnBackClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
+        }
+
+        // Métodos para overlay personalizado
+        private void ShowConfirmationOverlay(string title, string message, string qrInfo, string docInfo, string placasInfo, string fechaInfo)
+        {
+            ConfirmationIcon.Text = "✅";
+            ConfirmationIcon.TextColor = Color.FromArgb("#10B981");
+            ConfirmationTitle.Text = title;
+            ConfirmationMessage.Text = message;
+            QRInfo.Text = qrInfo;
+            DocumentoInfo.Text = docInfo;
+            PlacasInfo.Text = placasInfo;
+            FechaInfo.Text = fechaInfo;
+            
+            RegistroInfo.IsVisible = true;
+            ConfirmationButton.Text = "Continuar";
+            ConfirmationOverlay.IsVisible = true;
+        }
+
+        private void ShowErrorOverlay(string title, string message)
+        {
+            ConfirmationIcon.Text = "❌";
+            ConfirmationIcon.TextColor = Color.FromArgb("#EF4444");
+            ConfirmationTitle.Text = title;
+            ConfirmationMessage.Text = message;
+            
+            RegistroInfo.IsVisible = false;
+            ConfirmationButton.Text = "Reintentar";
+            ConfirmationOverlay.IsVisible = true;
+        }
+
+        private async void OnConfirmationButtonClicked(object sender, EventArgs e)
+        {
+            ConfirmationOverlay.IsVisible = false;
+            
+            if (ConfirmationButton.Text == "Continuar")
+            {
+                // Éxito - regresar al menú principal
+                await Navigation.PopToRootAsync();
+            }
+            else
+            {
+                // Error - no hacer nada, solo cerrar overlay
+            }
         }
     }
 }

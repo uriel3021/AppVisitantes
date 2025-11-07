@@ -5,8 +5,9 @@
              Title="Resumen Final"
              BackgroundColor="#000000">
 
-    <ScrollView>
-        <StackLayout Spacing="0">
+    <Grid>
+        <ScrollView>
+            <StackLayout Spacing="0">
             
             <!-- Header con gradiente Galxe -->
             <Frame HasShadow="False"
@@ -232,7 +233,106 @@
                 </Button>
                 
             </StackLayout>
-        </StackLayout>
-    </ScrollView>
+            </StackLayout>
+        </ScrollView>
+
+        <!-- Overlay de confirmación personalizado -->
+    <Grid x:Name="ConfirmationOverlay" 
+          IsVisible="False"
+          BackgroundColor="#80000000"
+          VerticalOptions="FillAndExpand"
+          HorizontalOptions="FillAndExpand">
+        
+        <Frame BackgroundColor="#1A1A1A"
+               CornerRadius="20"
+               Padding="30"
+               Margin="30"
+               HasShadow="True"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               WidthRequest="320">
+            
+            <StackLayout Spacing="20" HorizontalOptions="Center">
+                
+                <!-- Ícono de éxito -->
+                <Label x:Name="ConfirmationIcon"
+                       Text="✅"
+                       FontSize="48"
+                       HorizontalOptions="Center"
+                       TextColor="#10B981" />
+                
+                <!-- Título -->
+                <Label x:Name="ConfirmationTitle"
+                       Text="Visita Confirmada"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       FontFamily="Arial"
+                       TextColor="#FFFFFF"
+                       HorizontalOptions="Center" />
+                
+                <!-- Mensaje -->
+                <Label x:Name="ConfirmationMessage"
+                       Text="La visita ha sido registrada exitosamente"
+                       FontSize="14"
+                       FontFamily="Arial"
+                       TextColor="#9CA3AF"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+                
+                <!-- Información del registro -->
+                <StackLayout x:Name="RegistroInfo" 
+                            Spacing="8"
+                            IsVisible="True">
+                    
+                    <Label x:Name="QRInfo"
+                           FontSize="12"
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                    
+                    <Label x:Name="DocumentoInfo"
+                           FontSize="12"
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center" />
+                    
+                    <Label x:Name="PlacasInfo"
+                           FontSize="12"
+                           FontFamily="Arial"
+                           TextColor="#FFFFFF"
+                           HorizontalOptions="Center" />
+                    
+                    <Label x:Name="FechaInfo"
+                           FontSize="12"
+                           FontFamily="Arial"
+                           TextColor="#9CA3AF"
+                           HorizontalOptions="Center" />
+                    
+                </StackLayout>
+                
+                <!-- Botón de continuar -->
+                <Button x:Name="ConfirmationButton"
+                        Text="Continuar"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        FontFamily="Arial"
+                        TextColor="White"
+                        CornerRadius="12"
+                        HeightRequest="45"
+                        WidthRequest="200"
+                        Clicked="OnConfirmationButtonClicked">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8B5CF6" Offset="0.0" />
+                            <GradientStop Color="#3B82F6" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                
+            </StackLayout>
+        </Frame>
+        </Grid>
+    </Grid>
 
 </ContentPage>

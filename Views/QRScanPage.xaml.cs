@@ -5,6 +5,7 @@ namespace KYCApp.Views
 {
     public partial class QRScanPage : ContentPage
     {
+        private string _currentQRCode = string.Empty;
            private async void OnBackClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
@@ -25,7 +26,9 @@ namespace KYCApp.Views
             {
                 System.Diagnostics.Debug.WriteLine($"[Flash] Error al cambiar flash: {ex.Message}");
             }
-        } public QRScanPage()
+        }
+        
+        public QRScanPage()
         {
             InitializeComponent();
         }
@@ -53,15 +56,10 @@ namespace KYCApp.Views
                         {
                             System.Diagnostics.Debug.WriteLine("[QR] Mostrando alert inicial...");
                             
-                            // Mostrar SIEMPRE el valor escaneado primero
-                            await DisplayAlert("🔍 QR Detectado", 
-                                $"Código escaneado: {qrCode}\n" +
-                                $"Longitud: {qrCode.Length} caracteres\n" +
-                                $"Hora: {DateTime.Now:HH:mm:ss}\n\n" +
-                                $"Presiona OK para validar", 
-                                "OK");
+                            // Mostrar overlay de validación personalizado
+                            ShowValidationOverlay("Validando QR", "Verificando código en el sistema...", "⏳");
                             
-                            System.Diagnostics.Debug.WriteLine("[QR] Alert mostrado, iniciando validación...");
+                            System.Diagnostics.Debug.WriteLine("[QR] Overlay mostrado, iniciando validación...");
                             
                             // Validar con la API REST
                             await ValidateQRWithAPI(qrCode);
@@ -97,8 +95,8 @@ namespace KYCApp.Views
                 // Validar que sea un GUID válido
                 if (!Guid.TryParse(qrCode, out Guid qrGuid))
                 {
-                    await DisplayAlert("❌ Formato QR", "El QR no tiene formato de GUID válido", "OK");
-                    CameraView.IsDetecting = true;
+                    // Mostrar error de formato con overlay personalizado
+                    ShowValidationResult(false, "El QR no tiene formato de GUID válido", "", "", null, qrCode);
                     return;
                 }
                 
@@ -115,29 +113,15 @@ namespace KYCApp.Views
                 
                 if (result.IsValid)
                 {
-                    await DisplayAlert("✅ QR VÁLIDO", 
-                        $"Código registrado en el sistema\n\n" +
-                        $"� QR: {qrCode}\n" +
-                        $"👤 Visitante: {result.VisitanteName}\n" +
-                        $"📧 Email: {result.VisitanteEmail}\n" +
-                        $"� Fecha: {result.FechaVisita:dd/MM/yyyy}\n\n" +
-                        $"¡Continuando con documentos!", 
-                        "Continuar");
-                    
-                    System.Diagnostics.Debug.WriteLine("[QR] ✅ Navegando a DocumentCapturePage...");
-                    await Navigation.PushAsync(new DocumentCapturePage(qrCode));
-                    System.Diagnostics.Debug.WriteLine("[QR] ✅ Navegación completada");
+                    // Mostrar resultado exitoso con overlay personalizado
+                    ShowValidationResult(true, result.Message, result.VisitanteName, result.VisitanteEmail, result.FechaVisita, qrCode);
+                    System.Diagnostics.Debug.WriteLine("[QR] ✅ Resultado válido mostrado");
                 }
                 else
                 {
-                    await DisplayAlert("❌ QR NO VÁLIDO", 
-                        $"Código no registrado\n\n" +
-                        $"🔍 Escaneado: {qrCode}\n" +
-                        $"📝 Mensaje: {result.Message}", 
-                        "Reintentar");
-                    
-                    System.Diagnostics.Debug.WriteLine("[QR] ❌ QR no válido, reactivando escáner");
-                    CameraView.IsDetecting = true;
+                    // Mostrar error con overlay personalizado
+                    ShowValidationResult(false, result.Message, "", "", null, qrCode);
+                    System.Diagnostics.Debug.WriteLine("[QR] ❌ QR no válido mostrado");
                 }
                 
             }
@@ -146,12 +130,9 @@ namespace KYCApp.Views
                 System.Diagnostics.Debug.WriteLine($"[QR] ❌ EXCEPCIÓN: {ex.Message}");
                 System.Diagnostics.Debug.WriteLine($"[QR] StackTrace: {ex.StackTrace}");
                 
-                await DisplayAlert("❌ ERROR", 
-                    $"Error validando QR:\n{ex.Message}\n\n" +
-                    $"Tipo: {ex.GetType().Name}", 
-                    "OK");
-                
-                CameraView.IsDetecting = true;
+                // Mostrar error de conexión con overlay personalizado
+                ShowValidationResult(false, $"Error de conexión: {ex.Message}", "", "", null, "");
+                System.Diagnostics.Debug.WriteLine("[QR] ❌ Error de conexión mostrado");
             }
         }
 
@@ -164,6 +145,81 @@ namespace KYCApp.Views
         {
             base.OnDisappearing();
             CameraView.IsDetecting = false;
+        }
+
+        // Métodos para overlay personalizado
+        private void ShowValidationOverlay(string title, string message, string icon)
+        {
+            ValidationTitle.Text = title;
+            ValidationMessage.Text = message;
+            ValidationIcon.Text = icon;
+            ValidationButton.IsVisible = false;
+            VisitanteInfo.IsVisible = false;
+            ValidationOverlay.IsVisible = true;
+        }
+
+        private void ShowValidationResult(bool isValid, string message, string nombre, string email, DateTime? fecha, string qrCode)
+        {
+            _currentQRCode = qrCode; // Guardar QR code para navegación
+            
+            if (isValid)
+            {
+                ValidationIcon.Text = "✅";
+                ValidationIcon.TextColor = Color.FromArgb("#10B981");
+                ValidationTitle.Text = "QR Válido";
+                ValidationMessage.Text = message;
+
+                // Mostrar información del visitante
+                VisitanteNombre.Text = $"👤 {nombre}";
+                VisitanteEmail.Text = $"📧 {email}";
+                VisitanteFecha.Text = $"📅 {fecha:dd/MM/yyyy}";
+                VisitanteInfo.IsVisible = true;
+
+                ValidationButton.Text = "Continuar";
+                ValidationButton.BackgroundColor = Color.FromArgb("#10B981");
+                ValidationButton.IsVisible = true;
+
+                // Navegar automáticamente después de 2 segundos
+                Device.StartTimer(TimeSpan.FromSeconds(2), () =>
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        ValidationOverlay.IsVisible = false;
+                        await Navigation.PushAsync(new DocumentCapturePage(qrCode));
+                    });
+                    return false;
+                });
+            }
+            else
+            {
+                ValidationIcon.Text = "❌";
+                ValidationIcon.TextColor = Color.FromArgb("#EF4444");
+                ValidationTitle.Text = "QR No Válido";
+                ValidationMessage.Text = message;
+                VisitanteInfo.IsVisible = false;
+
+                ValidationButton.Text = "Reintentar";
+                ValidationButton.BackgroundColor = Color.FromArgb("#EF4444");
+                ValidationButton.IsVisible = true;
+            }
+        }
+
+        private async void OnValidationButtonClicked(object sender, EventArgs e)
+        {
+            ValidationOverlay.IsVisible = false;
+            
+            if (ValidationButton.Text == "Reintentar")
+            {
+                // QR no válido - reactivar escáner
+                CameraView.IsDetecting = true;
+            }
+            else if (ValidationButton.Text == "Continuar")
+            {
+                // QR válido - navegar a captura de documentos
+                System.Diagnostics.Debug.WriteLine("[QR] ✅ Navegando a DocumentCapturePage...");
+                await Navigation.PushAsync(new DocumentCapturePage(_currentQRCode));
+                System.Diagnostics.Debug.WriteLine("[QR] ✅ Navegación completada");
+            }
         }
     }
 }
